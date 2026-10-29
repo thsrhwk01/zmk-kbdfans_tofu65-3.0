@@ -1,6 +1,6 @@
 {
   "date": "2026-10-29",
-  "status": "usb-and-non-split-keys-user-verified-split-positions-awaiting-test",
+  "status": "all-switch-positions-user-verified-caps-led-awaiting-test",
   "zmk_revision": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
   "source_commit": "75386379d161ca180a0c0edd5288f31d3b25b532",
   "full_zmk_build_completed": true,
@@ -32,7 +32,7 @@
     "code_limit": "0x801e000"
   },
   "hardware_validation_passed": false,
-  "hardware_result": "User confirmed USB enumeration and expected key input on 771dfc0 normal build, including alternative Enter/Caps Lock/7u pads. Split extra positions and software UF2 entry remain unverified.",
+  "hardware_result": "USB and normal/alternative pads confirmed on 771dfc0; both split extra keys confirmed on 5475ca9. Caps LED implementation and software UF2 entry await confirmation.",
   "source_commit_note": "Build metadata below describes the first successfully compiled firmware, not the pending USB fix.",
   "hardware_verified_commit": "771dfc08a2d300562feff9eb7ec6be3fb0d2973d"
 }

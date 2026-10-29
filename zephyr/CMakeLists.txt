@@ -6,5 +6,9 @@ if(CONFIG_TOFU65_UNICORE)
     ../src/platform_init.c
     ../src/behavior_unicore_bootloader.c
   )
+  zephyr_library_sources_ifdef(CONFIG_ZMK_HID_INDICATORS
+    ../src/caps_indicator.c
+    ../src/unicore_rgb_byte.S
+  )
 endif()
 
