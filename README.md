@@ -3,9 +3,10 @@
 KBDfans TOFU65 3.0 **유선 핫스왑 UniCore-F1** 기판을 위한 ZMK 포팅 소스입니다.
 제공된 순정 `CURRENT.UF2`를 분석해 작성했습니다. 다른 TOFU 기판용이 아닙니다.
 
-**현재 상태: 소스 구현 및 오프라인 테스트 완료, 전체 ZMK 링크 빌드와 실기기 검증은 미완료입니다.**
-이 작업 환경에서는 GitHub 네트워크 접근이 차단되어 의존성을 가져오지 못했습니다.
-GitHub Actions 설정은 추가했지만 원격 저장소에 올리거나 실행하지 않았습니다.
+**현재 상태: 전체 ZMK 빌드, 자동 테스트, ELF/BIN 검사와 UF2 생성에 성공했습니다. 실기기 검증은 미완료입니다.**
+[검증된 빌드](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40862699584)는
+커밋 `7538637` 기준이며 플래시 35,932바이트, RAM 10,360바이트를 사용합니다.
+내려받은 아티팩트의 전체 SHA-256, ELF/BIN 일치, UF2 재생성 일치도 확인했습니다.
 
 ## 구현 범위
 
@@ -66,6 +67,13 @@ GitHub의 **Experimental TOFU65 ZMK build** 워크플로는 테스트, 의존성
 빌드, ELF 검사, UF2 패키징을 차례로 실행합니다. 실패하면 플래싱용 UF2를 배포하지
 않으며, 성공 시 `TOFU65-3.0-ZMK-EXPERIMENTAL` 아티팩트를 만듭니다.
 의존성 전체의 실제 커밋은 `manifest-frozen.yml`에 기록합니다.
+
+푸시 후 해당 커밋의 빌드가 끝날 때까지 3분 간격으로 확인할 수 있습니다.
+성공은 종료 코드 0, 실패는 1, 감시 시간 초과는 2입니다. 시간 초과를 성공으로 간주하지 마세요.
+
+```powershell
+python tools/watch_actions.py --sha (git rev-parse HEAD) --interval 180
+```
 
 로컬 빌드는 ZMK/Zephyr용 Python, west, CMake, Ninja, ARM 툴체인이 필요합니다.
 별도의 west 작업 폴더에서 이 저장소의 `config/`를 복사해 초기화합니다.

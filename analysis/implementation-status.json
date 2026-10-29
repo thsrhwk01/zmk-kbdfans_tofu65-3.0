@@ -1,46 +1,34 @@
 {
   "date": "2026-10-29",
-  "status": "experimental-source-implemented-offline-tests-passed",
+  "status": "experimental-firmware-built-and-artifacts-verified",
   "zmk_revision": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
-  "full_zmk_build_completed": false,
-  "github_actions_run": false,
+  "source_commit": "75386379d161ca180a0c0edd5288f31d3b25b532",
+  "full_zmk_build_completed": true,
+  "github_actions_run": "https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40862699584",
   "hardware_tested": false,
-  "blocker": "GitHub network unavailable in shell; escalation rejected by execution policy; complete Zephyr dependencies unavailable locally.",
+  "blocker": null,
   "checks": [
-    {
-      "command": [
-        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
-        "tools/test_firmware_tools.py"
-      ],
-      "exit_code": 0,
-      "output": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.030s\n\nOK\n"
-    },
-    {
-      "command": [
-        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
-        "tools/test_build_verifier.py"
-      ],
-      "exit_code": 0,
-      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.031s\n\nOK\n"
-    },
-    {
-      "command": [
-        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
-        "tools/test_layouts.py",
-        "--cpp",
-        "C:/Users/99woo/AppData/Local/Programs/ArmGNU12/bin/arm-none-eabi-gcc.exe"
-      ],
-      "exit_code": 0,
-      "output": "PASS: 16 layout combinations, 69 bindings per layer, invalid option rejected\n"
-    },
-    {
-      "command": [
-        "D:\\Coding\\zmk-kbdfans_tofu65-3.0\\build\\test_scan_core.exe"
-      ],
-      "exit_code": 0,
-      "output": "PASS: both polarities x 112 positions, 225-clock protocol, press/release/bounce filtering\n"
-    }
+    "8 UF2 tool tests passed",
+    "8 ELF/BIN verifier tests passed",
+    "16 layout combinations and invalid-option rejection passed",
+    "Native C serial protocol and debounce tests passed",
+    "Full ZMK compile and link passed",
+    "Downloaded artifact SHA-256 checks passed",
+    "Downloaded ELF/BIN memory and content checks passed",
+    "UF2 regeneration matched downloaded artifact byte-for-byte",
+    "Original firmware snapshot SHA-256 unchanged"
   ],
-  "arm_core_compile": "Cortex-M3 Thumb compilation passed; build/test_scan_core.arm.o",
-  "original_uf2_sha256": "b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0"
+  "flash_bytes": 35932,
+  "ram_bytes": 10360,
+  "uf2_sha256": "24cf2b18c07fb012539524278e9aebe949a428d2e5ea98059c9e42b48592e206",
+  "original_uf2_sha256": "b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0",
+  "verification": {
+    "hardware_tested": false,
+    "bin_size": 35932,
+    "bin_sha256": "b3d3d97c512e6c829161e7c414bd809adcdc4a2f324f3468faaf830106143ac2",
+    "elf_sha256": "3c5581b705a9d5cab64e7be51d35fb7315951ff0ddb6e06c21c0b9da416de1a6",
+    "entry": "0x8005ebd",
+    "allocated_ram_end": "0x20002878",
+    "code_limit": "0x801e000"
+  }
 }
