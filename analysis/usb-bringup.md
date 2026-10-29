@@ -21,7 +21,7 @@ ZMK's pinned defaults enable USB at APPLICATION priority 94 and register HID at 
 2. If Code 10 persists, use the `usb-diagnostic` artifact. It retains the same HID descriptors and initial GPIO setup but never schedules periodic scanning. It deliberately cannot type.
 3. Diagnostic success would implicate interaction with periodic scanning; diagnostic failure would mean periodic scanning alone does not explain the problem. Next investigate control transfers, clock/PHY behavior, and HID descriptors with bus-level evidence.
 
-No driver replacement, device uninstall, or automatic firmware flashing was performed. Neither revised variant has passed a hardware test yet. Compilation success is not hardware validation.
+No driver replacement, device uninstall, or automatic firmware flashing was performed. At that stage neither revised variant had passed a hardware test; subsequent results are recorded below. Compilation success is not hardware validation.
 
 ## User hardware confirmation after the USB fix
 
@@ -36,3 +36,15 @@ The user confirmed both additional split keys produce their assigned keycodes on
 Stock `0x08009e30` configures PB15 as output. `0x08009db4` serializes each byte MSB-first with different high/low durations for 0 and 1. `0x08009e40` sends three bytes per pixel then a low latch interval. `0x0800635c` stores G,R,B order; `0x08006370` sends black. `0x080063e8` tests HID Caps Lock bit 1; `0x0800637c` applies the indicator color and sets/clears PB14. Scanner startup also initializes PB14 and PA8 low. Bootloader `0x0800368` sends a changing 24-bit pattern on PB15 and also toggles PB14/PA8. Existing ZMK did not transmit any RGB frame, allowing the last LED color to remain powered.
 
 The new indicator sends black at POST_KERNEL priority 91 (before USB connects), then uses ZMK's host HID indicator event to display dim white for Caps Lock. PA8/PB14 startup levels match stock; PB14 follows the stock Caps Lock state. The byte transmitter preserves the recovered stock instruction sequence for the established 48 MHz clock. Only the 24-bit transfer masks interrupts; 300 us low latch waits do not. RGB model, physical pulse widths, and actual new LED behavior remain unmeasured. Verify both bootloader-to-ZMK startup and cold boot, Caps Lock on/off from the host (including another keyboard), and typing/USB stability.
+
+## Caps Lock confirmation and remaining work
+
+The user confirmed the Caps Lock LED implementation works on `8f92936` (run `40869663384`), including the requested startup initialization and Caps Lock indication. Do not retain the earlier LED-unverified status as the latest result.
+
+Remaining hardware confirmation: Fn + top-right Delete entering UF2, Fn + Esc restarting, repeated USB reconnect/cold boot, modifier combinations and simultaneous keys, and extended typing without stuck keys or disconnects. Stock recovery success has not been explicitly reported.
+
+Next development candidates after these checks: adapt the sibling personal Windows/macOS/home-row/mouse/Fn keymap by matrix coordinates, and add its keymap diagram. TOFU has 69 logical positions versus Neo65 CU's 70; do not copy binding indices directly. Keep the working hardware default keymap separate. Studio/persistent storage remain out of current scope and would require a separate memory/partition assessment.
+
+## Latest owner report: boot entry and typing
+
+Fn + Delete successfully entered the UF2 bootloader. The owner reported returning to ZMK after Fn + Esc and currently notices no dropped key input. The configured Fn + Esc is a ZMK reset binding, not demonstrated factory-bootloader key handling; the exact return sequence remains to be isolated. This is a qualitative typing observation, not a long-duration or measured latency test. See `dev/porting-notes.md` for the consolidated account and `README_ko.md` for current usage.

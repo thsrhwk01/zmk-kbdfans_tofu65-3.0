@@ -1,46 +1,72 @@
-# TOFU65 3.0 Wired ZMK — Experimental
+# KBDfans TOFU65 3.0 Wired ZMK Firmware
 
-KBDfans TOFU65 3.0 **유선 핫스왑 UniCore-F1** 기판을 위한 ZMK 포팅 소스입니다.
-제공된 순정 `CURRENT.UF2`를 분석해 작성했습니다. 다른 TOFU 기판용이 아닙니다.
+[한국어](README_ko.md)
 
-**현재 상태: 일반판 `771dfc0`에서 USB 인식과 키 입력을 실기기로 확인했습니다.**
-사용자가 분할 추가 키 2개를 제외한 키 위치를 시험했으며, ISO/ANSI 엔터,
-계단식 Caps Lock, 7u 하단 패드도 원하는 키로 입력됨을 확인했습니다.
-현재 설정은 남은 두 위치를 시험하기 위해 백스페이스·좌시프트 분할을 활성화합니다.
-분할 추가 키 두 개도 사용자가 정상 입력을 확인했습니다. 소프트웨어 UF2 진입은 아직 실기기 확인 전입니다.
-자세한 관찰은 [USB bring-up 기록](analysis/usb-bringup.md)을 참고하세요.
+USB-only ZMK firmware for the **KBDfans TOFU65 3.0 wired hotswap UniCore-F1 PCB**. The port was developed from the board-exported factory UF2 snapshot and preserves its flash bootloader and stock settings.
 
-## 구현 범위
+## Features
 
-- PB12 클럭 / PB13 양방향 데이터의 112비트 직렬 스캔 드라이버.
-- 순정의 채움 극성 및 입력 풀 방향 탐지, 히스토리 기반 디바운스.
-- 69개 스위치 위치를 포함하는 공통 매핑: 기본 ANSI 67키와 분할 키 2개.
-- 백스페이스 분할, 좌시프트 분할, ISO 엔터, 6.25u/7u 하단 배열 선택.
-- USB 전용, HSI 기반 48 MHz 클럭 설정, 순정 UF2 부트로더 진입 동작.
-- ELF/BIN 메모리 검사 및 Family ID `0x9D5BCF10`의 UF2 패키징.
+- Custom PB12/PB13 bidirectional serial scanner: 112 stages, 69 mapped switch positions
+- Split Backspace, split Left Shift, ANSI/ISO Enter, and 6.25u/7u layout choices
+- Host-controlled Caps Lock RGB indicator, dim white when enabled
+- Black RGB frame at startup to clear the bootloader's last color
+- Fn + Delete entry into the factory UF2 bootloader
+- Pinned ZMK source, automated tests, ELF/BIN memory checks, and UF2 packaging
 
-Studio와 영구 설정 저장은 포함하지 않습니다.
-Caps Lock LED는 시작 시 꺼짐으로 초기화하고, PC의 Caps Lock 상태에 따라
-흰색(각 RGB 채널 32/255)으로 켜거나 끕니다. 이 LED 구현은 실기기 확인 전입니다.
-스캔의 펄스 폭과 풀 방향 탐지는 실제 기판에서 확인해야 합니다.
+The personal Windows/macOS, home-row, and mouse keymaps from the sibling projects have **not yet been ported**. VIA/Vial configuration, ZMK Studio, wireless, persistent settings, and runtime color selection are not implemented.
 
-## 보존하는 영역
+## Supported hardware
 
-| 영역 | 주소 | 처리 |
-| --- | --- | --- |
-| 순정 부트로더 | `0x08000000`–`0x08003FFF` | 기록하지 않음 |
-| ZMK 코드 | `0x08004000`–`0x0801DFFF` | 최대 104 KiB |
-| 순정 설정 | `0x0801E000`–`0x0801FFFF` | 기록하지 않음 |
-| ZMK RAM | `0x20000000`–`0x20003FFF` | 하위 16 KiB만 사용 |
-| 부트 요청 매직 | `0x20004000` | 순정 규약대로 요청 후 리셋 |
+| Item | Target / evidence |
+| --- | --- |
+| PCB | TOFU65 3.0 wired hotswap, UniCore-F1 |
+| Board ID | `ARM32F103-UniCore-F1-v1.x` |
+| Bootloader | `v24.07.23i`, `UniCore-F1` UF2 volume |
+| Zephyr SoC configuration | STM32F103xB-compatible; physical MCU marking not confirmed |
+| Flash | 128 KiB in the exported snapshot; ZMK code partition 104 KiB |
+| SRAM used by ZMK | Lower 16 KiB; boot request at `0x20004000` reserved |
+| Clock | HSI/2 × 12 = 48 MHz, USB PLL/1 |
+| Connection | USB only |
 
-앱 시작 주소는 순정 부트로더의 분기 코드로 확인했습니다. 정확한 MCU 제조사와
-실제 ZMK 동작은 아직 하드웨어에서 확인하지 않았습니다. 근거와 주소는
-[리버싱 기록](analysis/reverse-engineering.txt)에 있습니다.
+These addresses and pins apply to this observed PCB, not every keyboard bearing the TOFU name. MCU vendor and exact LED part number remain unconfirmed.
 
-## 배열과 키맵
+## Verified firmware
 
-`config/layout-options.h`의 각 값을 `0` 또는 `1`로 설정한 후 다시 빌드합니다.
+Hardware observations were reported by the owner on 2026-10-29. The current tested baseline includes the split-key configuration and Caps Lock indicator.
+
+| Item | Value |
+| --- | --- |
+| Source commit | `8f92936e28cb3d0207dd13631b5caf775f3328aa` |
+| Actions run | [40869663384](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40869663384) |
+| Artifact | `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` |
+| File | `tofu65_3_0-zmk-normal-UNTESTED.uf2` |
+| UF2 size | 73,216 bytes |
+| UF2 SHA-256 | `d2f47a4ee2df1ad861b695805dfa5e1d84c762ff4e1597ca9b412282e6f411b3` |
+| Application / allocated RAM | 36,588 bytes / 10,376 bytes |
+
+Confirmed: USB enumeration and typing; both extra split keys; expected keycodes on tested ANSI/ISO Enter, stepped Caps Lock and 7u bottom-row pads; Caps Lock LED; Fn + Delete bootloader entry. The owner currently notices no missed input. This is not a measured latency or long-duration endurance result. Alternative-pad testing does not mean all 16 compiled layout combinations were physically assembled and tested.
+
+`UNTESTED` remains the automatic packaging filename: CI cannot certify each new build on hardware. The baseline above identifies the specific owner-tested build. Check the UF2 hash, not the ZIP hash.
+
+## Quick install on Windows
+
+1. Open the verified run above, or a successful [build workflow](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/workflows/build.yml).
+2. Download `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` and extract it. The `usb-diagnostic` artifact deliberately does not scan keys.
+3. Optionally compare the UF2 against the package's `SHA256SUMS.txt`:
+
+   ```powershell
+   Get-FileHash .\tofu65_3_0-zmk-normal-UNTESTED.uf2 -Algorithm SHA256
+   ```
+
+4. Enter UF2 mode with the PCB's double-tap button, or Fn + top-right Delete while ZMK is running.
+5. Copy only the generated `.uf2` to the `UniCore-F1` volume. Wait for copying to finish and the application to restart; reconnect USB if needed after copying completes.
+6. Check typing and Caps Lock indication. Save the original factory snapshot separately.
+
+No QMK Toolbox, dfu-util, or driver replacement is required for this mass-storage upload method. Do not copy the exported original `CURRENT.UF2` as a recovery upload; see below.
+
+## Keymap and shortcuts
+
+The current default enables both split options, with ANSI Enter and a 6.25u bottom row. Edit [config/layout-options.h](config/layout-options.h), then rebuild:
 
 ```c
 #define TOFU_SPLIT_BACKSPACE 1
@@ -49,50 +75,39 @@ Caps Lock LED는 시작 시 꺼짐으로 초기화하고, PC의 Caps Lock 상태
 #define TOFU_SPACE_7U 0
 ```
 
-위 예시는 분할 백스페이스/좌시프트, ANSI 엔터, 6.25u 하단 배열입니다.
-현재 제공값은 분할 두 옵션이 `1`, ISO 엔터와 7u 옵션이 `0`입니다. 실제 장착한 스위치 배열과 맞춰야 합니다.
-분할 추가 키의 기본값은 각각 Delete와 NUBS이며 원하는 기능으로 변경할 수 있습니다.
-ISO에서는 엔터/추가 문자 키를 해당 좌표로 바꾸고, 7u에서는 빠지는 하단 키를
-`&none`으로 처리합니다. 선택 옵션과 관계없이 키맵은 69개 위치를 유지합니다.
+| Key / combination | Action |
+| --- | --- |
+| Original Backspace / Left Shift | Backspace / Left Shift |
+| Extra split Backspace | Delete |
+| Extra split Left Shift | NUBS (`IntlBackslash`; character depends on host layout) |
+| Fn + top-right Delete | Factory UF2 entry, owner-confirmed |
+| Fn + Esc | ZMK application reset |
+| Fn + 1…0, Minus, Equal | F1…F12 |
 
-`config/tofu65_3_0.keymap`은 기본 키맵을 불러옵니다. 개인 키맵을 만들 때는
-`include/tofu65_3_0-default-keymap.dtsi`의 내용을 복사해 수정하고,
-69개 바인딩의 순서를 유지하세요. 생성된 기본 파일은 `tools/generate_layout.py`가
-다시 쓸 수 있습니다. `config/`의 개인 파일은 생성기가 수정하지 않습니다.
+Fn is the bottom-row key immediately left of Left Arrow (matrix `7,2`). Boot entry uses top-right Delete (`6,3`), **not** the additional split Backspace key. Layer bindings avoid combo waiting delays.
 
-### UF2 진입 단축키
+The owner also reported returning from bootloader to ZMK after Fn + Esc. The implemented binding belongs to ZMK; the factory bootloader does not execute this keymap. Treat that report as an observed return, not a guaranteed bootloader-side shortcut. USB reconnection remains the documented fallback.
 
-Neo65 CU 저장소와 같은 **Fn + 맨 오른쪽 상단 Delete** 방식을 사용합니다.
-현재 Fn은 하단에서 왼쪽 화살표 바로 왼쪽 키(`7,2`)입니다.
-Fn을 누른 채 맨 오른쪽 상단 Delete(`6,3`)를 누르면 순정 부트 요청 값을
-설정하고 재시작해 `UniCore-F1` UF2 드라이브 진입을 요청합니다.
-분할 백스페이스에 추가된 Delete 키는 이 단축키의 Delete가 아닙니다.
+[config/tofu65_3_0.keymap](config/tofu65_3_0.keymap) imports the generated default from [include/](include/). Keep personal keymaps in `config/`; `tools/generate_layout.py` may regenerate the default. All layouts retain 69 logical positions. ISO exchanges the Enter-area bindings; 7u disables the unused right-Alt position.
 
-**Fn + Esc**는 일반 재시작입니다. 여러 키 combo를 추가하지 않아
-일반 키 입력에 combo 대기 시간을 만들지 않습니다.
-단축키는 이전 빌드에도 포함돼 있었으며 실제 UF2 진입은 아직 미검증입니다.
-진입하지 않으면 기존 물리 double-tap 버튼을 사용하세요.
+## Bootloader preservation and recovery
 
-## 빌드
+| Region | Range | Normal ZMK upload |
+| --- | --- | --- |
+| Factory bootloader | `0x08000000`–`0x08003FFF` | Preserved |
+| Application | `0x08004000`–`0x0801DFFF` | Code only |
+| Factory settings | `0x0801E000`–`0x0801FFFF` | Preserved |
+| ZMK SRAM | `0x20000000`–`0x20003FFF` | Allocated RAM |
 
-ZMK는 `v0.3.0`의 정확한 커밋 `edf5c0814fd3ea202e43aad2d68fd32e882a518c`를 사용합니다.
-GitHub의 **Experimental TOFU65 ZMK build** 워크플로는 테스트, 의존성 설치,
-빌드, ELF 검사, UF2 패키징을 차례로 실행합니다. 실패하면 플래싱용 UF2를 배포하지
-않으며, 성공 시 `TOFU65-3.0-ZMK-normal-EXPERIMENTAL`과
-`TOFU65-3.0-ZMK-usb-diagnostic-EXPERIMENTAL` 아티팩트를 만듭니다.
-일반 시험에는 `normal`을 사용합니다. `usb-diagnostic`은 반복 키 스캔을 끈
-원인 분리용이며 정상 인식되어도 키 입력이 되지 않습니다.
-의존성 전체의 실제 커밋은 `manifest-frozen.yml`에 기록합니다.
+The application offset is supported by the factory bootloader's branch code. Normal packaging enforces the code boundary, stack/reset vectors, and UF2 Family ID `0x9D5BCF10`.
 
-푸시 후 해당 커밋의 빌드가 끝날 때까지 3분 간격으로 확인할 수 있습니다.
-성공은 종료 코드 0, 실패는 1, 감시 시간 초과는 2입니다. 시간 초과를 성공으로 간주하지 마세요.
+For stock recovery, enter the physical UF2 bootloader and copy [stock-application-recovery.UNTESTED.uf2](analysis/stock-application-recovery.UNTESTED.uf2). It contains the original application **and original settings**, excludes the bootloader, and sets upload-compatible UF2 headers. Its payload was verified against the original snapshot; successful stock restoration has not been explicitly reported. Original `CURRENT.UF2` has flags/family zero and includes bootloader blocks, so it is a readback format, not a directly accepted restore image.
 
-```powershell
-python tools/watch_actions.py --sha (git rev-parse HEAD) --interval 180
-```
+## Build and verification
 
-로컬 빌드는 ZMK/Zephyr용 Python, west, CMake, Ninja, ARM 툴체인이 필요합니다.
-별도의 west 작업 폴더에서 이 저장소의 `config/`를 복사해 초기화합니다.
+ZMK is pinned to `edf5c0814fd3ea202e43aad2d68fd32e882a518c` (v0.3.0). Each artifact includes `manifest-frozen.yml`, ELF/BIN, map files, resolved config/DTS, layout choices, verification report and SHA-256 checksums. The workflow builds normal and no-scan diagnostic variants; it does not publish tagged Releases or flash a device.
+
+With Python, west, CMake, Ninja and a compatible ARM/Zephyr toolchain installed:
 
 ```sh
 mkdir -p firmware-workspace/config
@@ -106,17 +121,14 @@ west build -s zmk/app -d build -b tofu65_3_0 -- \
   -DZMK_EXTRA_MODULES=/absolute/path/to/this/repository
 ```
 
-Windows에서 준비된 west 작업 폴더가 있다면 이 저장소에서 실행합니다.
+On Windows, after initializing the west workspace, [tools/build.ps1](tools/build.ps1) also verifies and packages the build locally:
 
 ```powershell
 ./tools/build.ps1 -FirmwareWorkspace 'D:/path/to/firmware-workspace'
+python tools/watch_actions.py --sha (git rev-parse HEAD) --interval 180
 ```
 
-스크립트는 빌드 성공 뒤 ELF/BIN을 검사하고 `dist/<timestamp>/`에 UF2를 만듭니다.
-키보드를 찾거나 파일을 장치에 복사하지 않습니다. 다른 보드의 BIN을 이름만 바꾸거나
-임의의 주소로 변환해서 사용하지 마세요.
-
-## 오프라인 검증
+The watcher returns 0 for success, 1 for failure, 2 for timeout. A timeout is not success.
 
 ```sh
 python tools/test_firmware_tools.py
@@ -126,19 +138,10 @@ cc -std=c11 -Wall -Wextra -Werror -Isrc tests/test_scan_core.c -o test-scan
 ./test-scan
 ```
 
-검사 범위: UF2 손상/주소/벡터, 16개 배열 조합, 양 극성의 112개 위치,
-225회 클럭 시퀀스, 입력/출력 전환, 디바운스. 배열 테스트는 전처리 검사이며,
-Zephyr Devicetree·Kconfig와 전체 펌웨어 빌드 검증을 대신하지 않습니다.
+Layout preprocessing covers 16 combinations; native tests cover the serial sequence and debounce. These checks complement the full ZMK build and hardware testing.
 
-최초 실기기 검증은 빌드 산출물이 확보된 뒤 USB 인식, 모든 키와 조합 입력,
-케이블 재연결, 물리 double-tap 재진입, 소프트웨어 부트 진입을 확인해야 합니다.
-`analysis/stock-application-recovery.UNTESTED.uf2`는 순정 복구 준비 파일이며 ZMK가 아닙니다.
+## Porting notes and remaining work
 
-## 순정 복구
+Read [the porting notes (Korean)](dev/porting-notes.md) for the evidence, mistakes, fixes and transferable lessons. [Reverse-engineering details](analysis/reverse-engineering.txt) and [USB/LED investigation history](analysis/usb-bringup.md) retain the lower-level observations.
 
-물리 버튼을 두 번 눌러 `UniCore-F1` 드라이브로 진입한 뒤
-`analysis/stock-application-recovery.UNTESTED.uf2`를 복사합니다.
-이 파일은 최초 스냅샷에서 부트로더 16 KiB를 제외한 순정 펌웨어·설정을
-그대로 보존하고, 쓰기에 필요한 UF2 Family ID와 플래그를 지정한 파일입니다.
-장치가 내보내는 원본 `CURRENT.UF2`는 해당 쓰기 조건을 만족하지 않으므로
-그대로 복사하는 복구 방법을 사용하지 마세요. 실제 복구 성공 여부는 별도 확인이 필요합니다.
+Next: port the personal keymap and diagrams by coordinates, then check extended typing, simultaneous-key combinations and repeated reconnects. Studio/persistent storage require a separate flash/RAM design; they are not enabled implicitly by available space.
