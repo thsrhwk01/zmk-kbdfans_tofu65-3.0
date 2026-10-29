@@ -1,0 +1,77 @@
+name: Experimental TOFU65 ZMK build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Test serial protocol, layouts, UF2 validation
+        run: |
+          python3 tools/test_firmware_tools.py
+          python3 tools/test_build_verifier.py
+          python3 tools/test_layouts.py
+          cc -std=c11 -Wall -Wextra -Werror -Isrc tests/test_scan_core.c -o /tmp/test-scan
+          /tmp/test-scan
+          python3 tools/generate_layout.py
+          git diff --exit-code -- boards/
+
+  firmware:
+    needs: offline-tests
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Initialize pinned ZMK workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tofu-workspace/config
+          cp -R config/. /tmp/tofu-workspace/config/
+          cd /tmp/tofu-workspace
+          west init -l config
+          west update --fetch-opt=--filter=tree:0
+          west zephyr-export
+          west manifest --freeze > "$GITHUB_WORKSPACE/manifest-frozen.yml"
+      - name: Build experimental firmware
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/tofu-workspace
+          west build -s zmk/app -d build -b tofu65_3_0 -- \
+            -DZMK_CONFIG=/tmp/tofu-workspace/config \
+            -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE"
+      - name: Verify linked memory and package UF2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          python3 tools/verify_build.py \
+            --elf /tmp/tofu-workspace/build/zephyr/zmk.elf \
+            --bin /tmp/tofu-workspace/build/zephyr/zmk.bin \
+            --config /tmp/tofu-workspace/build/zephyr/.config \
+            --report dist/build-verification.json
+          python3 tools/package_uf2.py \
+            --application-bin /tmp/tofu-workspace/build/zephyr/zmk.bin \
+            --output dist/tofu65_3_0-zmk-UNTESTED.uf2
+          cp /tmp/tofu-workspace/build/zephyr/zmk.{elf,bin} dist/
+          find /tmp/tofu-workspace/build/zephyr -maxdepth 1 -name '*.map' -exec cp {} dist/ \;
+          cp /tmp/tofu-workspace/build/zephyr/.config dist/zephyr.config
+          cp /tmp/tofu-workspace/build/zephyr/zephyr.dts dist/
+          cp manifest-frozen.yml config/layout-options.h dist/
+          sha256sum dist/* > SHA256SUMS.txt
+          mv SHA256SUMS.txt dist/
+      - name: Upload experimental artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: TOFU65-3.0-ZMK-EXPERIMENTAL
+          path: dist/
+          if-no-files-found: error

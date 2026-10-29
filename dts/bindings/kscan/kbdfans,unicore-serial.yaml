@@ -1,0 +1,14 @@
+description: TOFU65 UniCore-F1 PB12 clock and bidirectional PB13 serial key scanner
+compatible: "kbdfans,unicore-serial"
+include: kscan.yaml
+properties:
+  poll-interval-ms:
+    type: int
+    default: 1
+  half-period-us:
+    type: int
+    default: 1
+  settle-us:
+    type: int
+    default: 2
+

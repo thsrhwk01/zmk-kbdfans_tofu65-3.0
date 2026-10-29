@@ -1,0 +1,81 @@
+{
+  "payload_sha256": "be6f662de85df5af75fd977df4650df08b53f48c9b66951f031ba09c6463cc71",
+  "application_start": "0x08004000",
+  "application_reset_handler": "0x08004239",
+  "bootloader_handoff": "0x08000644",
+  "uf2_write_handler": "0x08000bb0",
+  "required_upload_flags": "0x00002000",
+  "required_upload_family": "0x9d5bcf10",
+  "accepted_upload_range": [
+    "0x08004000",
+    "0x08020000 (exclusive)"
+  ],
+  "upload_address_alignment": 256,
+  "upload_max_payload": 256,
+  "stock_settings_range": [
+    "0x0801e000",
+    "0x08020000 (exclusive)"
+  ],
+  "recommended_initial_code_limit": "0x0801e000 (exclusive; preserve stock settings)",
+  "boot_request_address": "0x20004000",
+  "boot_request_magic": "0x9d5bfc2b",
+  "bootloader_usb_vid_pid": "1209:db42",
+  "application_usb_vid_pid": "9d5b:2505",
+  "vial_address": "0x0800f512",
+  "vial_compressed_bytes": 700,
+  "vial_uncompressed_bytes": 1876,
+  "logical_matrix": {
+    "rows": 14,
+    "cols": 8
+  },
+  "default_ansi_keys": 67,
+  "scanner_address": "0x08006168",
+  "scanner_initialization": "0x0800606c",
+  "serial_clock_pin": "PB12",
+  "serial_bidirectional_data_pin": "PB13",
+  "serial_sample_polarity": "low is active",
+  "scan_bits": 112,
+  "gpio_initial_values_address": "0x0800fda0",
+  "gpio_initial_values": {
+    "A": {
+      "odr": "0xffffffff",
+      "crl": "0x88884b88",
+      "crh": "0x888884b8"
+    },
+    "B": {
+      "odr": "0xffffffff",
+      "crl": "0x88888838",
+      "crh": "0x88888838"
+    },
+    "C": {
+      "odr": "0xffffffff",
+      "crl": "0x88888888",
+      "crh": "0x88888888"
+    },
+    "D": {
+      "odr": "0xffffffff",
+      "crl": "0x88888844",
+      "crh": "0x88888888"
+    },
+    "E": {
+      "odr": "0xffffffff",
+      "crl": "0x88888888",
+      "crh": "0x88888888"
+    }
+  },
+  "gpio_mode_translation_address": "0x0800fd6a",
+  "gpio_mode_translation": [
+    4,
+    2,
+    4,
+    8,
+    8,
+    0,
+    3,
+    7
+  ],
+  "clock_init_address": "0x0800e7f8",
+  "clock_cfgr_configuration_excluding_readonly_sws": "0x00684402",
+  "clock_interpretation": "STM32F103 register model: HSI/2 x 12, SYSCLK 48 MHz, APB1 24 MHz, USB PLL/1",
+  "hardware_tested": false
+}

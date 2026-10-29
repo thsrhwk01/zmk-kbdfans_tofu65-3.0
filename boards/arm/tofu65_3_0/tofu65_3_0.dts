@@ -1,0 +1,82 @@
+/dts-v1/;
+#include <st/f1/stm32f103Xb.dtsi>
+#include <st/f1/stm32f103c(8-b)tx-pinctrl.dtsi>
+#include <dt-bindings/zmk/matrix_transform.h>
+#include "tofu65_3_0-matrix.dtsi"
+
+/ {
+    model = "KBDfans TOFU65 3.0 Wired UniCore-F1";
+    compatible = "kbdfans,tofu65-3-0", "st,stm32f103";
+
+    chosen {
+        zephyr,sram = &sram0;
+        zephyr,flash = &flash0;
+        zephyr,code-partition = &code_partition;
+        zmk,kscan = &kscan;
+        zmk,physical-layout = &tofu_layout;
+    };
+
+    tofu_layout: physical_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "TOFU65 all switch positions";
+        transform = <&tofu_transform>;
+    };
+
+    kscan: kscan {
+        compatible = "kbdfans,unicore-serial";
+        status = "okay";
+        poll-interval-ms = <1>;
+        half-period-us = <1>;
+        settle-us = <2>;
+    };
+};
+
+/* Stock application selects HSI/2 x12; do not inherit LINK65's HSE clock. */
+&clk_hsi { status = "okay"; };
+&clk_hse { status = "disabled"; };
+&pll {
+    clocks = <&clk_hsi>;
+    mul = <12>;
+    /* On F1, the HSI PLL input is fixed at HSI/2. */
+    status = "okay";
+};
+&rcc {
+    clocks = <&pll>;
+    clock-frequency = <DT_FREQ_M(48)>;
+    ahb-prescaler = <1>;
+    apb1-prescaler = <2>;
+    apb2-prescaler = <1>;
+    status = "okay";
+};
+
+/* Reserve RAM marker 0x20004000 and the upper 4 KiB for factory boot entry. */
+&sram0 { reg = <0x20000000 DT_SIZE_K(16)>; };
+
+&flash0 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        factory_bootloader: partition@0 {
+            label = "factory_bootloader";
+            reg = <0x0 0x4000>;
+            read-only;
+        };
+        code_partition: partition@4000 {
+            label = "code";
+            reg = <0x4000 0x1a000>;
+        };
+        factory_settings: partition@1e000 {
+            label = "factory_settings";
+            reg = <0x1e000 0x2000>;
+            read-only;
+        };
+    };
+};
+
+zephyr_udc0: &usb {
+    pinctrl-0 = <&usb_dm_pa11 &usb_dp_pa12>;
+    pinctrl-names = "default";
+    status = "okay";
+};
+

@@ -1,0 +1,724 @@
+{
+  "source": "uf2 storage\\CURRENT.UF2",
+  "source_sha256": "b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0",
+  "file_size": 262144,
+  "block_count": 512,
+  "base": "0x8000000",
+  "end_exclusive": "0x8020000",
+  "payload_size": 131072,
+  "payload_sha256": "be6f662de85df5af75fd977df4650df08b53f48c9b66951f031ba09c6463cc71",
+  "flags": [
+    "0x0"
+  ],
+  "family_field": [
+    "0x0"
+  ],
+  "vector_candidates": [
+    {
+      "address": "0x8000000",
+      "initial_sp": "0x20005000",
+      "reset_handler": "0x8002219",
+      "words": [
+        "0x20005000",
+        "0x8002219",
+        "0x8002215",
+        "0x8002213",
+        "0x8002213",
+        "0x8002213",
+        "0x8002213",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x0",
+        "0x8002215",
+        "0x8002215",
+        "0x0",
+        "0x8002215",
+        "0x8002215"
+      ]
+    },
+    {
+      "address": "0x8004000",
+      "initial_sp": "0x20000400",
+      "reset_handler": "0x8004239",
+      "words": [
+        "0x20000400",
+        "0x8004239",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800dd07",
+        "0x800423b",
+        "0x800423b",
+        "0x800423b",
+        "0x800e96b"
+      ]
+    },
+    {
+      "address": "0x800f900",
+      "initial_sp": "0x20002e64",
+      "reset_handler": "0x800ad0d",
+      "words": [
+        "0x20002e64",
+        "0x800ad0d",
+        "0x800ad99",
+        "0x800ac6d",
+        "0x20011",
+        "0x20002e66",
+        "0x800ad0d",
+        "0x800ad99",
+        "0x800ac6d",
+        "0x20012",
+        "0x20002e70",
+        "0x800ad0d",
+        "0x800ad99",
+        "0x0",
+        "0x20013",
+        "0x20002e72"
+      ]
+    }
+  ],
+  "strings": [
+    {
+      "address": "0x800036b",
+      "encoding": "ascii",
+      "text": "%!L\"N#x"
+    },
+    {
+      "address": "0x800066a",
+      "encoding": "ascii",
+      "text": "`CXBXApG"
+    },
+    {
+      "address": "0x80008ad",
+      "encoding": "ascii",
+      "text": "D%`,D#q"
+    },
+    {
+      "address": "0x8000cb6",
+      "encoding": "ascii",
+      "text": "RFIF8D"
+    },
+    {
+      "address": "0x8000d5a",
+      "encoding": "ascii",
+      "text": "XBXApG"
+    },
+    {
+      "address": "0x80010b8",
+      "encoding": "ascii",
+      "text": "1F(F\"D"
+    },
+    {
+      "address": "0x80011a0",
+      "encoding": "ascii",
+      "text": "(F!y\"D"
+    },
+    {
+      "address": "0x8001204",
+      "encoding": "ascii",
+      "text": "1F(F\"D"
+    },
+    {
+      "address": "0x80018ad",
+      "encoding": "ascii",
+      "text": "0 F[h)F"
+    },
+    {
+      "address": "0x80019ce",
+      "encoding": "ascii",
+      "text": "iy3x*y"
+    },
+    {
+      "address": "0x8001a97",
+      "encoding": "ascii",
+      "text": "%Ed)F2F"
+    },
+    {
+      "address": "0x8001cdd",
+      "encoding": "ascii",
+      "text": "hSppG8"
+    },
+    {
+      "address": "0x80022e8",
+      "encoding": "ascii",
+      "text": "ZPpGP\\"
+    },
+    {
+      "address": "0x8002367",
+      "encoding": "ascii",
+      "text": " (F9F2F"
+    },
+    {
+      "address": "0x80028e3",
+      "encoding": "ascii",
+      "text": "c@0@1@:"
+    },
+    {
+      "address": "0x8002be6",
+      "encoding": "ascii",
+      "text": "UF2 Bootloader"
+    },
+    {
+      "address": "0x8002bfd",
+      "encoding": "ascii",
+      "text": "DMESG line too long!"
+    },
+    {
+      "address": "0x8002c19",
+      "encoding": "ascii",
+      "text": "Flush at %x"
+    },
+    {
+      "address": "0x8002c25",
+      "encoding": "ascii",
+      "text": "Write flush at %x"
+    },
+    {
+      "address": "0x8002c37",
+      "encoding": "ascii",
+      "text": "Skip block at %x"
+    },
+    {
+      "address": "0x8002c48",
+      "encoding": "ascii",
+      "text": "Write block at %x"
+    },
+    {
+      "address": "0x8002c5d",
+      "encoding": "ascii",
+      "text": "UF2 UF2 "
+    },
+    {
+      "address": "0x8002c85",
+      "encoding": "ascii",
+      "text": "UniCore-F1"
+    },
+    {
+      "address": "0x8002c90",
+      "encoding": "ascii",
+      "text": "FAT16   <!doctype html>"
+    },
+    {
+      "address": "0x8002ca8",
+      "encoding": "ascii",
+      "text": "<html><body><script>"
+    },
+    {
+      "address": "0x8002cbd",
+      "encoding": "ascii",
+      "text": "location.replace(\"https://ydkb.io/\");"
+    },
+    {
+      "address": "0x8002ce3",
+      "encoding": "ascii",
+      "text": "</script></body></html>"
+    },
+    {
+      "address": "0x8002cfc",
+      "encoding": "ascii",
+      "text": "INFO_UF2TXT"
+    },
+    {
+      "address": "0x8002d0c",
+      "encoding": "ascii",
+      "text": "INDEX   HTM"
+    },
+    {
+      "address": "0x8002d1c",
+      "encoding": "ascii",
+      "text": "CURRENT UF2"
+    },
+    {
+      "address": "0x8002d2c",
+      "encoding": "ascii",
+      "text": "UF2 Bootloader: v24.07.23i"
+    },
+    {
+      "address": "0x8002d48",
+      "encoding": "ascii",
+      "text": "Model: UniCore-F1 Controller"
+    },
+    {
+      "address": "0x8002d66",
+      "encoding": "ascii",
+      "text": "Board-ID: ARM32F103-UniCore-F1-v1.x"
+    },
+    {
+      "address": "0x8002d8c",
+      "encoding": "ascii",
+      "text": "Devanarchy"
+    },
+    {
+      "address": "0x8002d97",
+      "encoding": "ascii",
+      "text": "DAPBoot DFU Bootloader"
+    },
+    {
+      "address": "0x8002dae",
+      "encoding": "ascii",
+      "text": "DAPBoot DFU"
+    },
+    {
+      "address": "0x8002e65",
+      "encoding": "ascii",
+      "text": "                            "
+    },
+    {
+      "address": "0x8002e99",
+      "encoding": "ascii",
+      "text": "MSFT100!"
+    },
+    {
+      "address": "0x8002eb4",
+      "encoding": "ascii",
+      "text": "WINUSB"
+    },
+    {
+      "address": "0x8002eca",
+      "encoding": "ascii",
+      "text": "0123456789ABCDEF"
+    },
+    {
+      "address": "0x800478f",
+      "encoding": "ascii",
+      "text": "c@0@1@:"
+    },
+    {
+      "address": "0x8004b66",
+      "encoding": "ascii",
+      "text": ",FZF@F"
+    },
+    {
+      "address": "0x8004d49",
+      "encoding": "ascii",
+      "text": "B+FRF("
+    },
+    {
+      "address": "0x8004e9c",
+      "encoding": "ascii",
+      "text": "ZFHF!j"
+    },
+    {
+      "address": "0x8004ef5",
+      "encoding": "ascii",
+      "text": " pGuh3F"
+    },
+    {
+      "address": "0x8004fa4",
+      "encoding": "ascii",
+      "text": "#h!FSDHF#`"
+    },
+    {
+      "address": "0x80054d7",
+      "encoding": "ascii",
+      "text": "\"#ib`#`"
+    },
+    {
+      "address": "0x80054e4",
+      "encoding": "ascii",
+      "text": "`eak>`A"
+    },
+    {
+      "address": "0x800556b",
+      "encoding": "ascii",
+      "text": "\"b`\"i\"`"
+    },
+    {
+      "address": "0x80056f2",
+      "encoding": "ascii",
+      "text": "cQchK`"
+    },
+    {
+      "address": "0x8005708",
+      "encoding": "ascii",
+      "text": "#h9F0F"
+    },
+    {
+      "address": "0x800572f",
+      "encoding": "ascii",
+      "text": " +D#`Sh"
+    },
+    {
+      "address": "0x80057b2",
+      "encoding": "ascii",
+      "text": "c`T`(F"
+    },
+    {
+      "address": "0x8005a4f",
+      "encoding": "ascii",
+      "text": "B\"F)F("
+    },
+    {
+      "address": "0x8005aed",
+      "encoding": "ascii",
+      "text": "#ZF9F0F"
+    },
+    {
+      "address": "0x8005b65",
+      "encoding": "ascii",
+      "text": "#\"F9F0F"
+    },
+    {
+      "address": "0x8005c35",
+      "encoding": "ascii",
+      "text": "F#a;F!F0F"
+    },
+    {
+      "address": "0x8005c4c",
+      "encoding": "ascii",
+      "text": "JF9F0F#i"
+    },
+    {
+      "address": "0x8005c7d",
+      "encoding": "ascii",
+      "text": "#RF9F0F"
+    },
+    {
+      "address": "0x8005d6a",
+      "encoding": "ascii",
+      "text": "#`x\"/H"
+    },
+    {
+      "address": "0x8005f8a",
+      "encoding": "ascii",
+      "text": ";F2F(F"
+    },
+    {
+      "address": "0x80060cb",
+      "encoding": "ascii",
+      "text": "\"!K FX"
+    },
+    {
+      "address": "0x8006bdf",
+      "encoding": "ascii",
+      "text": ";XBXApG"
+    },
+    {
+      "address": "0x80076e0",
+      "encoding": "ascii",
+      "text": "2FYFPF"
+    },
+    {
+      "address": "0x8007714",
+      "encoding": "ascii",
+      "text": "2FYFPF"
+    },
+    {
+      "address": "0x8007981",
+      "encoding": "ascii",
+      "text": "$*N(x;x"
+    },
+    {
+      "address": "0x8007c3a",
+      "encoding": "ascii",
+      "text": "!I!K\"L"
+    },
+    {
+      "address": "0x800824d",
+      "encoding": "ascii",
+      "text": "@#(1@<A9("
+    },
+    {
+      "address": "0x8008272",
+      "encoding": "ascii",
+      "text": ") pG-J"
+    },
+    {
+      "address": "0x8008316",
+      "encoding": "ascii",
+      "text": "1 pG9 pG"
+    },
+    {
+      "address": "0x8008ebc",
+      "encoding": "ascii",
+      "text": "#aea#iC"
+    },
+    {
+      "address": "0x8008fca",
+      "encoding": "ascii",
+      "text": "JCLCKC"
+    },
+    {
+      "address": "0x8009558",
+      "encoding": "ascii",
+      "text": "#N$L3y_"
+    },
+    {
+      "address": "0x800962c",
+      "encoding": "ascii",
+      "text": "#M%H*x"
+    },
+    {
+      "address": "0x8009cea",
+      "encoding": "ascii",
+      "text": "\"%(+.148=@CFIKN"
+    },
+    {
+      "address": "0x800a088",
+      "encoding": "ascii",
+      "text": "8IO[^bf"
+    },
+    {
+      "address": "0x800a28f",
+      "encoding": "ascii",
+      "text": "%)L*N*O"
+    },
+    {
+      "address": "0x800a36e",
+      "encoding": "ascii",
+      "text": "#!!;GG!P[ens"
+    },
+    {
+      "address": "0x800a46e",
+      "encoding": "ascii",
+      "text": " ##pcp"
+    },
+    {
+      "address": "0x800a843",
+      "encoding": "ascii",
+      "text": " (0pG8"
+    },
+    {
+      "address": "0x800b06a",
+      "encoding": "ascii",
+      "text": "%M%L+x"
+    },
+    {
+      "address": "0x800b2b3",
+      "encoding": "ascii",
+      "text": "(,04:FNRVbfjnt"
+    },
+    {
+      "address": "0x800b832",
+      "encoding": "ascii",
+      "text": "+p1F F"
+    },
+    {
+      "address": "0x800b9d2",
+      "encoding": "ascii",
+      "text": "3F9F F"
+    },
+    {
+      "address": "0x800be83",
+      "encoding": "ascii",
+      "text": "\"HK!F3"
+    },
+    {
+      "address": "0x800c358",
+      "encoding": "ascii",
+      "text": "XBXApG"
+    },
+    {
+      "address": "0x800cc64",
+      "encoding": "ascii",
+      "text": "pGpGpG"
+    },
+    {
+      "address": "0x800cdb0",
+      "encoding": "ascii",
+      "text": "pGpGpG"
+    },
+    {
+      "address": "0x800d840",
+      "encoding": "ascii",
+      "text": "\"DIB*D"
+    },
+    {
+      "address": "0x800d925",
+      "encoding": "ascii",
+      "text": "JQhSh["
+    },
+    {
+      "address": "0x800df1d",
+      "encoding": "ascii",
+      "text": "j@7@3@6"
+    },
+    {
+      "address": "0x800df49",
+      "encoding": "ascii",
+      "text": "j/D+D.D"
+    },
+    {
+      "address": "0x800e0b7",
+      "encoding": "ascii",
+      "text": "j@7@3@6"
+    },
+    {
+      "address": "0x800e0e7",
+      "encoding": "ascii",
+      "text": "j/D+D.D"
+    },
+    {
+      "address": "0x800e5b6",
+      "encoding": "ascii",
+      "text": "+F*F)F F"
+    },
+    {
+      "address": "0x800e5ec",
+      "encoding": "ascii",
+      "text": "+F*F)F F"
+    },
+    {
+      "address": "0x800e62c",
+      "encoding": "ascii",
+      "text": "&655555555;;"
+    },
+    {
+      "address": "0x800e65e",
+      "encoding": "ascii",
+      "text": "+F*F)F"
+    },
+    {
+      "address": "0x800e91e",
+      "encoding": "ascii",
+      "text": "Bh2@*CB`"
+    },
+    {
+      "address": "0x800eb4b",
+      "encoding": "ascii",
+      "text": "`Zh:DZ`"
+    },
+    {
+      "address": "0x800ef69",
+      "encoding": "ascii",
+      "text": "         (((((                  "
+    },
+    {
+      "address": "0x800efaa",
+      "encoding": "ascii",
+      "text": "AAAAAA"
+    },
+    {
+      "address": "0x800efca",
+      "encoding": "ascii",
+      "text": "BBBBBB"
+    },
+    {
+      "address": "0x800f06d",
+      "encoding": "ascii",
+      "text": "Layout set change"
+    },
+    {
+      "address": "0x800f2e2",
+      "encoding": "ascii",
+      "text": "\"#%&()*,-/023568:;=>@BCEGIJLNPQSUWYZ\\^`bdfhikmoqsuwy{}"
+    },
+    {
+      "address": "0x800f3ac",
+      "encoding": "ascii",
+      "text": "}{ywusqomkihfdb`^\\ZYWUSQPNLJIGECB@>=;:865320/-,*)(&%#\""
+    },
+    {
+      "address": "0x800f40a",
+      "encoding": "ascii",
+      "text": "#$%%%%%%"
+    },
+    {
+      "address": "0x800f47c",
+      "encoding": "ascii",
+      "text": "  !\"\"#$$%&&'())*+,--./01223456789:;<=>?@ABCDEFGHIJLMNOPQSTUVXYZ[]^_abdefhiklmoprsuwxz{}~"
+    },
+    {
+      "address": "0x800f571",
+      "encoding": "ascii",
+      "text": "?7&.|9c"
+    },
+    {
+      "address": "0x800f996",
+      "encoding": "ascii",
+      "text": "4 !\"$4&'%.6-78'"
+    },
+    {
+      "address": "0x800f9a7",
+      "encoding": "ascii",
+      "text": " !\"#$%&336.78"
+    },
+    {
+      "address": "0x800f9cf",
+      "encoding": "ascii",
+      "text": "/10#-5"
+    },
+    {
+      "address": "0x800fddc",
+      "encoding": "ascii",
+      "text": "REENT malloc succeeded"
+    },
+    {
+      "address": "0x800fdf4",
+      "encoding": "ascii",
+      "text": "../../../../../../newlib/libc/stdlib/rand.c"
+    },
+    {
+      "address": "0x800fe20",
+      "encoding": "ascii",
+      "text": ", function: "
+    },
+    {
+      "address": "0x800fe30",
+      "encoding": "ascii",
+      "text": "assertion \"%s\" failed: file \"%s\", line %d%s%s"
+    },
+    {
+      "address": "0x800fe6c",
+      "encoding": "ascii",
+      "text": "efgEFG"
+    },
+    {
+      "address": "0x800fe74",
+      "encoding": "ascii",
+      "text": "0123456789ABCDEF"
+    },
+    {
+      "address": "0x800fe88",
+      "encoding": "ascii",
+      "text": "0123456789abcdef"
+    },
+    {
+      "address": "0x801f011",
+      "encoding": "ascii",
+      "text": "%`'@'P'@'P'@'"
+    },
+    {
+      "address": "0x801f027",
+      "encoding": "ascii",
+      "text": "'@'`'@'`'@'P'@'P'X'P'V'P'"
+    },
+    {
+      "address": "0x8005bda",
+      "encoding": "utf-16-le",
+      "text": "ffffffffff"
+    },
+    {
+      "address": "0x8005bf0",
+      "encoding": "utf-16-le",
+      "text": "pffffpffff!"
+    },
+    {
+      "address": "0x800f110",
+      "encoding": "utf-16-le",
+      "text": ".**J01"
+    },
+    {
+      "address": "0x800faae",
+      "encoding": "utf-16-le",
+      "text": "vial:f64c2b3c"
+    },
+    {
+      "address": "0x800facc",
+      "encoding": "utf-16-le",
+      "text": "Tofu65 3.0 Keyboard (VIAL_DPBJ)"
+    },
+    {
+      "address": "0x800fb0e",
+      "encoding": "utf-16-le",
+      "text": "KBDFans"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "kind": "stock application plus original settings; excludes bootloader; UNTESTED",
+  "hardware_tested": false,
+  "base": "0x8004000",
+  "payload_length": 114688,
+  "uf2_length": 229376,
+  "family_id": "0x9d5bcf10",
+  "sha256": "af1855901a6e40458143c30c84614ca361ebbeb97013faeaa4a5cc1fe0b35cb9"
+}

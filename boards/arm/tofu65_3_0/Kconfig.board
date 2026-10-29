@@ -1,0 +1,4 @@
+config BOARD_TOFU65_3_0
+    bool "KBDfans TOFU65 3.0 wired UniCore-F1"
+    depends on SOC_STM32F103XB
+

@@ -1,0 +1,202 @@
+TOFU65 3.0 wired hotswap: stock UF2 reverse engineering
+Date: 2026-10-28
+
+Scope
+-----
+Offline analysis of the supplied snapshot only. No USB/device access, flash
+writes, or hardware tests were performed. This directory does not contain a
+built ZMK firmware. The stock recovery UF2 is not ZMK and is hardware-untested.
+
+Input and reproducibility
+-------------------------
+Original: uf2 storage/CURRENT.UF2 (262144 bytes)
+SHA256: b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0
+Extracted flash: current-flash.bin (131072 bytes)
+SHA256: be6f662de85df5af75fd977df4650df08b53f48c9b66951f031ba09c6463cc71
+
+From the repository root, with Python 3 and an ARM GNU objdump:
+  python tools/analyze_uf2.py "uf2 storage/CURRENT.UF2" --objdump <path-to-arm-none-eabi-objdump>
+  python tools/inspect_tofu65.py
+  python tools/test_firmware_tools.py
+
+The analyzer validates UF2 structure and contiguous addresses, extracts the
+payload, and annotates PC-relative literal loads in a Thumb disassembly.
+The TOFU-specific inspector requires the exact extracted snapshot hash.
+Linear disassembly also decodes data as instructions: only traced routines
+and referenced constants support the conclusions below. The vector-like
+sequence at 0x0800F900 is a data-table false positive, not a third application.
+
+1. Application entry and memory boundaries: direct code evidence
+---------------------------------------------------------------
+0x08000644: bootloader handoff function.
+0x0800064E: loads 0x08004000, then loads word 0 into MSP.
+0x08000656: loads word 1 and calls it with BLX.
+0x08004000: application MSP = 0x20000400.
+0x08004004: application reset vector = 0x08004239.
+0x08004238: branches to startup at 0x08004160.
+0x0800416E-0x08004172: application writes 0x08004000 to SCB VTOR.
+
+Therefore 0x08004000 is the demonstrated stock application start, not merely
+a vector-table guess. Bootloader occupies the protected first 16 KiB.
+The snapshot covers 0x08000000 through 0x0801FFFF. Bootloader initial MSP is
+0x20005000, consistent with a 20 KiB SRAM address space; this is not silicon
+capacity measurement or exact manufacturer identification.
+
+0x08008A34 erases 1 KiB pages from 0x0801E000 to 0x08020000.
+0x08008BC8 restores an inverted 4 KiB settings base and replays its journal.
+Reserve 0x0801E000-0x0801FFFF as stock settings during initial ZMK bring-up.
+Initial code partition recommendation: [0x08004000, 0x0801E000), 104 KiB.
+
+2. UF2 uploads: exported dump headers differ from accepted upload headers
+------------------------------------------------------------------------
+0x08000BB0 is the UF2 receive handler. Its checks include:
+  0x08000BE6-0x08000BEC: flags must equal exactly 0x00002000.
+  0x08000BEE-0x08000BF4: family field must equal 0x9D5BCF10.
+  0x08000BF6-0x08000BFE: payload at most 256 bytes.
+  0x08000C00-0x08000C02: target address aligned to 256 bytes.
+  0x08000C04-0x08000C12: target >= 0x08004000 and end <= 0x08020000.
+  0x08000C88 onward: erasure aligned to 1 KiB flash pages.
+
+CURRENT.UF2 has flags=0 and family=0 in every block. The receive handler
+rejects those headers; the original dump is not a directly reusable upload
+image on this handler. This conclusion is static, not a physical copy test.
+
+tools/package_uf2.py generates the required headers and validates application
+size, stack pointer, reset address, and padding. Normal application packaging
+preserves the settings area as well as the bootloader. Stock recovery mode
+requires the known original flash hash and includes original settings.
+
+stock-application-recovery.UNTESTED.uf2:
+  Covers 0x08004000-0x0801FFFF; never includes bootloader addresses.
+  Payload is byte-for-byte identical to that range of the supplied snapshot.
+  Generated for recovery preparation only; not physically tested.
+  SHA256: af1855901a6e40458143c30c84614ca361ebbeb97013faeaa4a5cc1fe0b35cb9
+  Reproduction (output must not already exist):
+    python tools/package_uf2.py --stock-flash-bin analysis/current-flash.bin --output <new-file.uf2>
+
+3. Embedded Vial definition and layout: recovered original data
+--------------------------------------------------------------
+At 0x0800F512, an XZ/LZMA stream of 700 bytes expands to 1876 bytes of JSON.
+Recovered name: KBDFans Tofu65 3.0.
+Recovered matrix: 14 logical rows x 8 columns (112 serial scan positions).
+Default ANSI layout: 67 unique positions.
+Options include split Backspace, ISO Enter, split left Shift, and 6.25u/7u
+spacebar layouts. These options are metadata, not proof of populated sockets.
+
+vial-definition.json preserves the complete decoded definition.
+ansi-matrix.csv maps default ANSI positions to logical coordinates and scan
+indices. Conventional key labels were assigned from the physical layout;
+they are not a reconstruction of the user's currently stored key bindings.
+ansi-transform.dtsi contains the equivalent ZMK RC() map fragment.
+Examples: Esc = (0,0)/index 0; A = (1,6)/index 14;
+Space = (5,3)/index 43; Up = (9,6)/index 78.
+
+USB descriptors independently agree with the Vial identifiers:
+  Bootloader at 0x08002DD0: VID:PID 1209:DB42.
+  Application at 0x0800FB7D: VID:PID 9D5B:2505.
+  Product: Tofu65 3.0 Keyboard (VIAL_DPBJ).
+
+4. Scanner: custom bidirectional serial protocol, not direct row/column GPIO
+---------------------------------------------------------------------------
+Initialization at 0x0800606C; scan function at 0x08006168; row getter at
+0x08006264. The main key task at 0x08007FA8 calls the scanner, reads 14 bytes,
+and emits individual bit changes as matrix row/column events.
+
+PB12: clock, driven high then low via GPIOB BSRR/BRR.
+PB13: bidirectional data, actively driven during shifting and configured as
+      pulled input during sampling. Low input is interpreted as active.
+PB9: sampled low/high during initialization to choose fill/injection polarity.
+PB8: also sampled at initialization; affects another board variant flag.
+
+GPIO mode helper: 0x0800E8D8, lookup at 0x0800FD6A.
+  mode 3 -> input pull-up (ODR high, CR nibble 8)
+  mode 4 -> input pull-down (ODR low, CR nibble 8)
+  mode 6 -> push-pull output (CR nibble 3)
+
+Observed initialization for scan input mode:
+  Configure PB9/PB8 as pull-ups, wait, and sample board flags.
+  Configure PB12/PB13 as outputs; drive the fill polarity on PB13.
+  Pulse PB12 112 times.
+  Configure PB13 as pull-down input, wait, and sample it.
+  If it reads high, later sampling uses pull-down; otherwise pull-up.
+The same initialization also drives PA8/PB14 low for other board features;
+their complete circuit roles are not established here.
+
+Observed scan pseudocode (electrical timing remains unmeasured):
+  data_output(); drive(fill_level);
+  repeat 112 times: clock_high(); clock_low();
+  drive(!fill_level); clock_high(); clock_low();
+  data_input(selected_pull);
+  for i in 0..111:
+      active = !read(PB13);
+      history[i] = (history[i] >> 1) | (active << 7);
+      data_output(); drive(fill_level);
+      clock_high(); clock_low();
+      data_input(selected_pull);
+      if history[i] > press_threshold: set matrix[i / 8] bit (i % 8);
+      else if history[i] <= release_threshold: clear that bit;
+
+Stock initialized thresholds are release=4 and press=239, sourced from
+.data bytes at 0x0800FF00. They may subsequently be changed by runtime settings.
+The 112 physical serial stages are inferred from code, not a component ID.
+Do not describe this as a standard 74HC165 chain or assign a diode direction
+without further evidence. A normal ZMK GPIO matrix cannot express the observed
+data-pin direction switching; plan a dedicated scanner reproducing this protocol.
+
+5. Clock setup and USB startup
+-----------------------------
+Early initialization: 0x0800D3E4 -> 0x08006310 (PA12 driven low for detach),
+then 0x0800EEEA -> 0x0800E7F8 (clock setup).
+Clock code enables HSI and LSI, configures PLL multiplication, writes
+RCC CFGR=0x00684400, then selects PLL with bits SW=2.
+Under the STM32F103 register model this means:
+  HSI 8 MHz / 2 x 12 = 48 MHz system clock;
+  AHB 48 MHz, APB1 24 MHz, APB2 48 MHz, USB PLL / 1 = 48 MHz.
+This differs from LINK65's 8 MHz HSE / 72 MHz configuration.
+The bootloader clock state and application startup state must not be conflated.
+PB9 also toggles around application USB initialization at 0x0800D234;
+it may be shared with USB connection control, so avoid treating it solely as
+an unused strap pin. Do not infer its complete circuit solely from these stores.
+
+Register interpretation reference:
+https://github.com/STMicroelectronics/cmsis-device-f1/blob/master/Include/stm32f103xb.h
+UF2 layout reference:
+https://github.com/microsoft/uf2
+
+6. Software bootloader request
+-----------------------------
+Application 0x08006488 writes 0x9D5BFC2B to SRAM 0x20004000 and requests
+a system reset through SCB AIRCR (0x05FA0004).
+Bootloader accessors 0x08000150/0x0800015C write/read that same SRAM word.
+Boot decision code 0x0800056C checks and clears the matching magic.
+The bootloader uses the same SRAM location to implement a reset-entry window.
+0x9D5BCB2A is a different bootloader-internal request to launch the app.
+
+For an initial ZMK implementation, reserve 0x20004000 for the boot request;
+using only the lower 16 KiB of SRAM is a conservative first layout. Do not
+place normal ZMK stack/BSS over the marker. Reset behavior still needs an
+on-device test before relying on software entry instead of the physical button.
+
+7. What is established, and what still needs real hardware
+--------------------------------------------------------
+Established from this snapshot: app base, upload family/flags, address checks,
+stock settings boundaries, logical layout, serial scan algorithm, GPIO modes,
+clock register writes, software boot request, and USB descriptors.
+
+Not established: exact silicon marking (STM32/APM32/GD32 or other compatible
+device), electrical timing margin, external serial-chain component identity,
+all indicator/lighting roles, and actual ZMK USB/typing/recovery behavior.
+
+The next implementation can proceed from this evidence without first asking
+for a PCB photograph: board partition/clock configuration, custom serial scanner,
+recovered matrix transform, and family-correct UF2 packaging. Static analysis
+alone cannot certify that a newly built ZMK image works on the physical board.
+
+Verification
+------------
+Eight offline tests cover package roundtrip/family, reordered blocks, corrupt
+magic, duplicate block numbers, overlapping addresses, settings boundary,
+incorrect application link address, and invalid SRAM stack pointer.
+The generated stock recovery image is additionally checked block-by-block
+against the original payload and the bootloader's inferred acceptance rules.
+The original UF2 hash remains unchanged. AGENTS.md was not modified.

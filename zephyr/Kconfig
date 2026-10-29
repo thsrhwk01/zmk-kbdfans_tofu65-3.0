@@ -1,0 +1,5 @@
+config TOFU65_UNICORE
+    bool "TOFU65 UniCore-F1 serial scanner"
+    default y if BOARD_TOFU65_3_0
+    depends on SOC_STM32F103XB
+

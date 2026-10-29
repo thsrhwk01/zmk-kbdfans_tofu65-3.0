@@ -1,0 +1,8 @@
+name: zmk-keyboard-tofu65-3-0
+build:
+  cmake: zephyr
+  kconfig: zephyr/Kconfig
+  settings:
+    board_root: .
+    dts_root: .
+

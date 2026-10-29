@@ -1,0 +1,208 @@
+/* Generated. Edit config/layout-options.h or a personal keymap. */
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#ifndef TOFU_SPLIT_BACKSPACE
+#define TOFU_SPLIT_BACKSPACE 0
+#endif
+#if TOFU_SPLIT_BACKSPACE != 0 && TOFU_SPLIT_BACKSPACE != 1
+#error "TOFU_SPLIT_BACKSPACE must be 0 or 1"
+#endif
+#ifndef TOFU_ISO_ENTER
+#define TOFU_ISO_ENTER 0
+#endif
+#if TOFU_ISO_ENTER != 0 && TOFU_ISO_ENTER != 1
+#error "TOFU_ISO_ENTER must be 0 or 1"
+#endif
+#ifndef TOFU_SPLIT_LSHIFT
+#define TOFU_SPLIT_LSHIFT 0
+#endif
+#if TOFU_SPLIT_LSHIFT != 0 && TOFU_SPLIT_LSHIFT != 1
+#error "TOFU_SPLIT_LSHIFT must be 0 or 1"
+#endif
+#ifndef TOFU_SPACE_7U
+#define TOFU_SPACE_7U 0
+#endif
+#if TOFU_SPACE_7U != 0 && TOFU_SPACE_7U != 1
+#error "TOFU_SPACE_7U must be 0 or 1"
+#endif
+#if TOFU_ISO_ENTER
+#define TOFU_ENTER_POSITION &kp NUHS
+#define TOFU_BACKSLASH_POSITION &kp RET
+#else
+#define TOFU_ENTER_POSITION &kp RET
+#define TOFU_BACKSLASH_POSITION &kp BSLH
+#endif
+#if TOFU_SPLIT_BACKSPACE
+#define TOFU_EXTRA_BACKSPACE &kp DEL
+#else
+#define TOFU_EXTRA_BACKSPACE &none
+#endif
+#if TOFU_SPLIT_LSHIFT
+#define TOFU_EXTRA_SHIFT &kp NUBS
+#else
+#define TOFU_EXTRA_SHIFT &none
+#endif
+#if TOFU_SPACE_7U
+#define TOFU_RIGHT_ALT &none
+#else
+#define TOFU_RIGHT_ALT &kp RALT
+#endif
+
+/ {
+    behaviors {
+        uf2_boot: unicore_bootloader {
+            compatible = "kbdfans,unicore-bootloader";
+            label = "UNICORE_BOOTLOADER";
+            #binding-cells = <0>;
+        };
+    };
+    keymap {
+        compatible = "zmk,keymap";
+        base {
+            bindings = <
+                &kp ESC /* 0,0: ESC */
+                &kp N1 /* 0,4: 1 */
+                &kp N2 /* 0,5: 2 */
+                &kp N3 /* 0,6: 3 */
+                &kp N4 /* 2,0: 4 */
+                &kp N5 /* 2,2: 5 */
+                &kp N6 /* 2,4: 6 */
+                &kp N7 /* 2,5: 7 */
+                &kp N8 /* 4,0: 8 */
+                &kp N9 /* 4,2: 9 */
+                &kp N0 /* 4,3: 0 */
+                &kp MINUS /* 4,4: MINUS */
+                &kp EQUAL /* 6,0: EQUAL */
+                &kp BSPC /* 6,1: BACKSPACE */
+                &kp DEL /* 6,3: DELETE */
+                &kp TAB /* 0,1: TAB */
+                &kp Q /* 0,2: Q */
+                &kp W /* 0,3: W */
+                &kp E /* 0,7: E */
+                &kp R /* 2,1: R */
+                &kp T /* 2,3: T */
+                &kp Y /* 2,6: Y */
+                &kp U /* 2,7: U */
+                &kp I /* 4,1: I */
+                &kp O /* 4,5: O */
+                &kp P /* 4,6: P */
+                &kp LBKT /* 4,7: LBRACKET */
+                &kp RBKT /* 6,4: RBRACKET */
+                TOFU_BACKSLASH_POSITION /* 6,5: BACKSLASH */
+                &kp PGUP /* 8,0: PGUP */
+                &kp CAPS /* 1,7: CAPS */
+                &kp A /* 1,6: A */
+                &kp S /* 1,2: S */
+                &kp D /* 3,7: D */
+                &kp F /* 3,6: F */
+                &kp G /* 3,1: G */
+                &kp H /* 5,7: H */
+                &kp J /* 5,6: J */
+                &kp K /* 5,5: K */
+                &kp L /* 5,0: L */
+                &kp SEMI /* 7,7: SEMICOLON */
+                &kp SQT /* 7,4: APOSTROPHE */
+                TOFU_ENTER_POSITION /* 7,0: ENTER */
+                &kp PGDN /* 9,2: PGDN */
+                &kp LSHFT /* 1,5: LSHIFT */
+                &kp Z /* 1,0: Z */
+                &kp X /* 3,5: X */
+                &kp C /* 3,3: C */
+                &kp V /* 3,2: V */
+                &kp B /* 3,0: B */
+                &kp N /* 5,4: N */
+                &kp M /* 5,2: M */
+                &kp COMMA /* 5,1: COMMA */
+                &kp DOT /* 7,6: DOT */
+                &kp FSLH /* 7,5: SLASH */
+                &kp RSHFT /* 9,7: RSHIFT */
+                &kp UP /* 9,6: UP */
+                &kp END /* 9,3: END */
+                &kp LCTRL /* 1,3: LCTRL */
+                &kp LGUI /* 1,1: LGUI */
+                &kp LALT /* 3,4: LALT */
+                &kp SPACE /* 5,3: SPACE */
+                TOFU_RIGHT_ALT /* 7,3: RALT */
+                &mo 1 /* 7,2: RGUI */
+                &kp LEFT /* 7,1: LEFT */
+                &kp DOWN /* 9,5: DOWN */
+                &kp RIGHT /* 9,4: RIGHT */
+                TOFU_EXTRA_BACKSPACE /* 6,2: SPLIT_BACKSPACE_EXTRA */
+                TOFU_EXTRA_SHIFT /* 1,4: SPLIT_LSHIFT_EXTRA */
+            >;
+        };
+        function {
+            bindings = <
+                &sys_reset /* 0,0: ESC */
+                &kp F1 /* 0,4: 1 */
+                &kp F2 /* 0,5: 2 */
+                &kp F3 /* 0,6: 3 */
+                &kp F4 /* 2,0: 4 */
+                &kp F5 /* 2,2: 5 */
+                &kp F6 /* 2,4: 6 */
+                &kp F7 /* 2,5: 7 */
+                &kp F8 /* 4,0: 8 */
+                &kp F9 /* 4,2: 9 */
+                &kp F10 /* 4,3: 0 */
+                &kp F11 /* 4,4: MINUS */
+                &kp F12 /* 6,0: EQUAL */
+                &trans /* 6,1: BACKSPACE */
+                &uf2_boot /* 6,3: DELETE */
+                &trans /* 0,1: TAB */
+                &trans /* 0,2: Q */
+                &trans /* 0,3: W */
+                &trans /* 0,7: E */
+                &trans /* 2,1: R */
+                &trans /* 2,3: T */
+                &trans /* 2,6: Y */
+                &trans /* 2,7: U */
+                &trans /* 4,1: I */
+                &trans /* 4,5: O */
+                &trans /* 4,6: P */
+                &trans /* 4,7: LBRACKET */
+                &trans /* 6,4: RBRACKET */
+                &trans /* 6,5: BACKSLASH */
+                &trans /* 8,0: PGUP */
+                &trans /* 1,7: CAPS */
+                &trans /* 1,6: A */
+                &trans /* 1,2: S */
+                &trans /* 3,7: D */
+                &trans /* 3,6: F */
+                &trans /* 3,1: G */
+                &trans /* 5,7: H */
+                &trans /* 5,6: J */
+                &trans /* 5,5: K */
+                &trans /* 5,0: L */
+                &trans /* 7,7: SEMICOLON */
+                &trans /* 7,4: APOSTROPHE */
+                &trans /* 7,0: ENTER */
+                &trans /* 9,2: PGDN */
+                &trans /* 1,5: LSHIFT */
+                &trans /* 1,0: Z */
+                &trans /* 3,5: X */
+                &trans /* 3,3: C */
+                &trans /* 3,2: V */
+                &trans /* 3,0: B */
+                &trans /* 5,4: N */
+                &trans /* 5,2: M */
+                &trans /* 5,1: COMMA */
+                &trans /* 7,6: DOT */
+                &trans /* 7,5: SLASH */
+                &trans /* 9,7: RSHIFT */
+                &trans /* 9,6: UP */
+                &trans /* 9,3: END */
+                &trans /* 1,3: LCTRL */
+                &trans /* 1,1: LGUI */
+                &trans /* 3,4: LALT */
+                &trans /* 5,3: SPACE */
+                &trans /* 7,3: RALT */
+                &trans /* 7,2: RGUI */
+                &trans /* 7,1: LEFT */
+                &trans /* 9,5: DOWN */
+                &trans /* 9,4: RIGHT */
+                &trans /* 6,2: SPLIT_BACKSPACE_EXTRA */
+                &trans /* 1,4: SPLIT_LSHIFT_EXTRA */
+            >;
+        };
+    };
+};

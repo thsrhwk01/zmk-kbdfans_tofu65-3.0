@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-29",
+  "status": "experimental-source-implemented-offline-tests-passed",
+  "zmk_revision": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
+  "full_zmk_build_completed": false,
+  "github_actions_run": false,
+  "hardware_tested": false,
+  "blocker": "GitHub network unavailable in shell; escalation rejected by execution policy; complete Zephyr dependencies unavailable locally.",
+  "checks": [
+    {
+      "command": [
+        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
+        "tools/test_firmware_tools.py"
+      ],
+      "exit_code": 0,
+      "output": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.030s\n\nOK\n"
+    },
+    {
+      "command": [
+        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
+        "tools/test_build_verifier.py"
+      ],
+      "exit_code": 0,
+      "output": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.031s\n\nOK\n"
+    },
+    {
+      "command": [
+        "C:/Users/99woo/AppData/Local/Python/pythoncore-3.12-64/python.exe",
+        "tools/test_layouts.py",
+        "--cpp",
+        "C:/Users/99woo/AppData/Local/Programs/ArmGNU12/bin/arm-none-eabi-gcc.exe"
+      ],
+      "exit_code": 0,
+      "output": "PASS: 16 layout combinations, 69 bindings per layer, invalid option rejected\n"
+    },
+    {
+      "command": [
+        "D:\\Coding\\zmk-kbdfans_tofu65-3.0\\build\\test_scan_core.exe"
+      ],
+      "exit_code": 0,
+      "output": "PASS: both polarities x 112 positions, 225-clock protocol, press/release/bounce filtering\n"
+    }
+  ],
+  "arm_core_compile": "Cortex-M3 Thumb compilation passed; build/test_scan_core.arm.o",
+  "original_uf2_sha256": "b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0"
+}

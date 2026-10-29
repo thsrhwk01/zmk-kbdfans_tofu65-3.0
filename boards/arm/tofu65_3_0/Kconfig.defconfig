@@ -1,0 +1,13 @@
+if BOARD_TOFU65_3_0
+
+config BOARD
+    default "tofu65_3_0"
+
+config ZMK_KEYBOARD_NAME
+    default "TOFU65 3.0 ZMK"
+
+config ZMK_USB
+    default y
+
+endif
+

@@ -1,0 +1,4 @@
+description: Request the preserved UniCore-F1 UF2 bootloader through its RAM marker
+compatible: "kbdfans,unicore-bootloader"
+include: zero_param.yaml
+

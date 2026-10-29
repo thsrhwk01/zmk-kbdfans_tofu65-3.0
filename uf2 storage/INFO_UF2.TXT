@@ -1,0 +1,3 @@
+UF2 Bootloader: v24.07.23i
+Model: UniCore-F1 Controller
+Board-ID: ARM32F103-UniCore-F1-v1.x
