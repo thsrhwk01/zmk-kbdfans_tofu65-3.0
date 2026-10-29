@@ -26,7 +26,7 @@ def check(cpp):
             values = (split_bs, iso, split_shift, space7)
             args = [cpp, "-E", "-P", "-x", "assembler-with-cpp", "-I", str(inc)]
             args += [f"-D{k}={v}" for k, v in zip(OPTIONS, values)]
-            args += [str(BOARD / "tofu65_3_0-default-keymap.dtsi")]
+            args += [str(ROOT / "include/tofu65_3_0-default-keymap.dtsi")]
             output = subprocess.check_output(args, text=True)
             layers = re.findall(r"bindings\s*=\s*<(.*?)>;", output, re.S)
             assert len(layers) == 2
@@ -42,7 +42,7 @@ def check(cpp):
             assert "&uf2_boot" in bindings[1]
         invalid = subprocess.run([cpp, "-E", "-P", "-x", "assembler-with-cpp", "-I", str(inc),
                                   "-DTOFU_ISO_ENTER=2",
-                                  str(BOARD / "tofu65_3_0-default-keymap.dtsi")],
+                                  str(ROOT / "include/tofu65_3_0-default-keymap.dtsi")],
                                  capture_output=True)
         assert invalid.returncode != 0
     print("PASS: 16 layout combinations, 69 bindings per layer, invalid option rejected")

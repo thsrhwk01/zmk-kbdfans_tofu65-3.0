@@ -51,7 +51,7 @@ ISO에서는 엔터/추가 문자 키를 해당 좌표로 바꾸고, 7u에서는
 `&none`으로 처리합니다. 선택 옵션과 관계없이 키맵은 69개 위치를 유지합니다.
 
 `config/tofu65_3_0.keymap`은 기본 키맵을 불러옵니다. 개인 키맵을 만들 때는
-`boards/arm/tofu65_3_0/tofu65_3_0-default-keymap.dtsi`의 내용을 복사해 수정하고,
+`include/tofu65_3_0-default-keymap.dtsi`의 내용을 복사해 수정하고,
 69개 바인딩의 순서를 유지하세요. 생성된 기본 파일은 `tools/generate_layout.py`가
 다시 쓸 수 있습니다. `config/`의 개인 파일은 생성기가 수정하지 않습니다.
 

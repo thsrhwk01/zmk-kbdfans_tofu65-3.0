@@ -1,3 +1,3 @@
 /* Standalone fallback: ANSI, unsplit Backspace/Shift, 6.25u bottom row. */
-#include "tofu65_3_0-default-keymap.dtsi"
+#include <tofu65_3_0-default-keymap.dtsi>
 

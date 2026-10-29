@@ -21,7 +21,7 @@ jobs:
           cc -std=c11 -Wall -Wextra -Werror -Isrc tests/test_scan_core.c -o /tmp/test-scan
           /tmp/test-scan
           python3 tools/generate_layout.py
-          git diff --exit-code -- boards/
+          git diff --exit-code -- boards/ include/
 
   firmware:
     needs: offline-tests

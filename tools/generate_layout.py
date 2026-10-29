@@ -78,7 +78,7 @@ def generate():
             binding = "&kp F12"
         out.append(f"                {binding} /* {r},{c}: {label} */")
     out += ["            >;", "        };", "    };", "};"]
-    (BOARD / "tofu65_3_0-default-keymap.dtsi").write_text("\n".join(out) + "\n")
+    (ROOT / "include/tofu65_3_0-default-keymap.dtsi").write_text("\n".join(out) + "\n")
     print("Generated 69-position union: 67 ANSI positions plus 2 split-key positions.")
 
 
