@@ -22,13 +22,6 @@ void z_arm_platform_init(void) {
     __asm__ volatile("dsb sy\n\tisb sy" ::: "memory");
 }
 
-static int usb_clock(void) {
-    /* F1 USBPRE=1 means PLL/1: PLL is 48 MHz, not LINK65's 72 MHz. */
-    UNICORE_REG(UNICORE_RCC + 4) |= 1u << 22;
-    return 0;
-}
-SYS_INIT(usb_clock, PRE_KERNEL_1, 45);
-
 static int usb_connect(void) {
     /* Stock USB init ends with PB9 ODR low; keep scanner's input-pull mode. */
     unicore_gpio_write(UNICORE_GPIOB, 9, 0);

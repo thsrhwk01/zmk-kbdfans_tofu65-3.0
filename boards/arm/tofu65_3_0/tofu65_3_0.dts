@@ -37,6 +37,7 @@
 &pll {
     clocks = <&clk_hsi>;
     mul = <12>;
+    usbpre;
     /* On F1, the HSI PLL input is fixed at HSI/2. */
     status = "okay";
 };
