@@ -3,3 +3,11 @@ config TOFU65_UNICORE
     default y if BOARD_TOFU65_3_0
     depends on SOC_STM32F103XB
 
+config TOFU65_USB_DIAGNOSTIC
+    bool "Enumerate USB without periodic key scanning (diagnostic only)"
+    depends on TOFU65_UNICORE
+    default n
+    help
+      Keep the normal HID descriptors and initial GPIO setup but never start
+      the serial scan worker. Keys cannot type in this diagnostic build.
+

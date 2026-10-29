@@ -3,10 +3,11 @@
 KBDfans TOFU65 3.0 **유선 핫스왑 UniCore-F1** 기판을 위한 ZMK 포팅 소스입니다.
 제공된 순정 `CURRENT.UF2`를 분석해 작성했습니다. 다른 TOFU 기판용이 아닙니다.
 
-**현재 상태: 전체 ZMK 빌드, 자동 테스트, ELF/BIN 검사와 UF2 생성에 성공했습니다. 실기기 검증은 미완료입니다.**
-[검증된 빌드](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40862699584)는
-커밋 `7538637` 기준이며 플래시 35,932바이트, RAM 10,360바이트를 사용합니다.
-내려받은 아티팩트의 전체 SHA-256, ELF/BIN 일치, UF2 재생성 일치도 확인했습니다.
+**현재 상태: 빌드와 파일 검증은 통과했지만, 첫 실기기 시험에서 Windows HID Code 10이 발생했습니다.**
+기판에서 읽어 낸 ZMK 데이터는 배포 BIN과 정확히 일치하며 부트로더·순정 설정도 보존됐습니다.
+현재 소스는 USB 인터럽트 차단 시간을 줄이고 HID 초기화를 USB 연결보다 먼저 실행합니다.
+이 변경으로 실기기 문제가 해결됐는지는 아직 확인되지 않았습니다.
+자세한 관찰과 시험 순서는 [USB bring-up 기록](analysis/usb-bringup.md)을 참고하세요.
 
 ## 구현 범위
 
@@ -65,7 +66,10 @@ UF2 부트로더 진입입니다. 둘 다 실기기 테스트 전입니다. 물�
 ZMK는 `v0.3.0`의 정확한 커밋 `edf5c0814fd3ea202e43aad2d68fd32e882a518c`를 사용합니다.
 GitHub의 **Experimental TOFU65 ZMK build** 워크플로는 테스트, 의존성 설치,
 빌드, ELF 검사, UF2 패키징을 차례로 실행합니다. 실패하면 플래싱용 UF2를 배포하지
-않으며, 성공 시 `TOFU65-3.0-ZMK-EXPERIMENTAL` 아티팩트를 만듭니다.
+않으며, 성공 시 `TOFU65-3.0-ZMK-normal-EXPERIMENTAL`과
+`TOFU65-3.0-ZMK-usb-diagnostic-EXPERIMENTAL` 아티팩트를 만듭니다.
+일반 시험에는 `normal`을 사용합니다. `usb-diagnostic`은 반복 키 스캔을 끈
+원인 분리용이며 정상 인식되어도 키 입력이 되지 않습니다.
 의존성 전체의 실제 커밋은 `manifest-frozen.yml`에 기록합니다.
 
 푸시 후 해당 커밋의 빌드가 끝날 때까지 3분 간격으로 확인할 수 있습니다.
@@ -117,3 +121,12 @@ Zephyr Devicetree·Kconfig와 전체 펌웨어 빌드 검증을 대신하지 않
 최초 실기기 검증은 빌드 산출물이 확보된 뒤 USB 인식, 모든 키와 조합 입력,
 케이블 재연결, 물리 double-tap 재진입, 소프트웨어 부트 진입을 확인해야 합니다.
 `analysis/stock-application-recovery.UNTESTED.uf2`는 순정 복구 준비 파일이며 ZMK가 아닙니다.
+
+## 순정 복구
+
+물리 버튼을 두 번 눌러 `UniCore-F1` 드라이브로 진입한 뒤
+`analysis/stock-application-recovery.UNTESTED.uf2`를 복사합니다.
+이 파일은 최초 스냅샷에서 부트로더 16 KiB를 제외한 순정 펌웨어·설정을
+그대로 보존하고, 쓰기에 필요한 UF2 Family ID와 플래그를 지정한 파일입니다.
+장치가 내보내는 원본 `CURRENT.UF2`는 해당 쓰기 조건을 만족하지 않으므로
+그대로 복사하는 복구 방법을 사용하지 마세요. 실제 복구 성공 여부는 별도 확인이 필요합니다.

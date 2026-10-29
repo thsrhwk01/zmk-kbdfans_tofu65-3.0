@@ -45,9 +45,12 @@ static void data_input(void *context) {
 static void clock_pulse(void *context) {
     struct unicore_data *data = context;
     const struct unicore_config *config = data->dev->config;
+    /* Only the high pulse needs a bounded duration. Service USB between pulses. */
+    unsigned int key = irq_lock();
     unicore_gpio_write(UNICORE_GPIOB, 12, 1);
     k_busy_wait(config->half_us);
     unicore_gpio_write(UNICORE_GPIOB, 12, 0);
+    irq_unlock(key);
     k_busy_wait(config->half_us);
 }
 
@@ -68,10 +71,8 @@ static void scan_work(struct k_work *work) {
         .context = data, .output = data_output, .input = data_input,
         .pulse = clock_pulse, .read = data_read,
     };
-    /* Bound the timing-sensitive scan; callbacks run after restoring IRQs. */
-    unsigned int key = irq_lock();
+    /* Do not mask USB for all 225 clocks plus input settling. */
     unicore_sample(&bus, data->fill_high, active);
-    irq_unlock(key);
     for (unsigned int i = 0; i < UNICORE_BITS; i++) {
         if (unicore_filter_update(&data->filter, i, active[i]) && data->callback &&
             atomic_get(&data->enabled)) {
@@ -80,7 +81,7 @@ static void scan_work(struct k_work *work) {
         }
     }
     /* Serialize disable against rescheduling. */
-    key = irq_lock();
+    unsigned int key = irq_lock();
     if (atomic_get(&data->enabled)) {
         k_work_reschedule(&data->work, K_MSEC(config->poll_ms));
     }
@@ -100,6 +101,9 @@ static int enable(const struct device *dev) {
     struct unicore_data *data = dev->data;
     if (!data->callback) {
         return -EINVAL;
+    }
+    if (IS_ENABLED(CONFIG_TOFU65_USB_DIAGNOSTIC)) {
+        return 0; /* Enumerate the same HID interface without periodic key scanning. */
     }
     atomic_set(&data->enabled, 1);
     k_work_reschedule(&data->work, K_NO_WAIT);

@@ -1,11 +1,11 @@
 {
   "date": "2026-10-29",
-  "status": "experimental-firmware-built-and-artifacts-verified",
+  "status": "first-hardware-attempt-failed-hid-code10-usb-fix-awaiting-retest",
   "zmk_revision": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
   "source_commit": "75386379d161ca180a0c0edd5288f31d3b25b532",
   "full_zmk_build_completed": true,
   "github_actions_run": "https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40862699584",
-  "hardware_tested": false,
+  "hardware_tested": true,
   "blocker": null,
   "checks": [
     "8 UF2 tool tests passed",
@@ -30,5 +30,8 @@
     "entry": "0x8005ebd",
     "allocated_ram_end": "0x20002878",
     "code_limit": "0x801e000"
-  }
+  },
+  "hardware_validation_passed": false,
+  "hardware_result": "Windows HID Code 10 (0xC0000001); device readback exactly matches previous ZMK BIN; bootloader and factory settings unchanged",
+  "source_commit_note": "Build metadata below describes the first successfully compiled firmware, not the pending USB fix."
 }

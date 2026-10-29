@@ -25,6 +25,10 @@ jobs:
 
   firmware:
     needs: offline-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [normal, usb-diagnostic]
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
@@ -36,6 +40,9 @@ jobs:
           set -euo pipefail
           mkdir -p /tmp/tofu-workspace/config
           cp -R config/. /tmp/tofu-workspace/config/
+          if [ "${{ matrix.variant }}" = usb-diagnostic ]; then
+            echo 'CONFIG_TOFU65_USB_DIAGNOSTIC=y' >> /tmp/tofu-workspace/config/tofu65_3_0.conf
+          fi
           cd /tmp/tofu-workspace
           west init -l config
           west update --fetch-opt=--filter=tree:0
@@ -61,7 +68,7 @@ jobs:
             --report dist/build-verification.json
           python3 tools/package_uf2.py \
             --application-bin /tmp/tofu-workspace/build/zephyr/zmk.bin \
-            --output dist/tofu65_3_0-zmk-UNTESTED.uf2
+            --output dist/tofu65_3_0-zmk-${{ matrix.variant }}-UNTESTED.uf2
           cp /tmp/tofu-workspace/build/zephyr/zmk.{elf,bin} dist/
           find /tmp/tofu-workspace/build/zephyr -maxdepth 1 -name '*.map' -exec cp {} dist/ \;
           cp /tmp/tofu-workspace/build/zephyr/.config dist/zephyr.config
@@ -73,7 +80,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: TOFU65-build-diagnostics
+          name: TOFU65-build-diagnostics-${{ matrix.variant }}
           path: |
             /tmp/tofu-workspace/build/zephyr/zmk.elf
             /tmp/tofu-workspace/build/zephyr/zmk.bin
@@ -85,6 +92,6 @@ jobs:
       - name: Upload experimental artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: TOFU65-3.0-ZMK-EXPERIMENTAL
+          name: TOFU65-3.0-ZMK-${{ matrix.variant }}-EXPERIMENTAL
           path: dist/
           if-no-files-found: error
