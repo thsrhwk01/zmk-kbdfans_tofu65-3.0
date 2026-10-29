@@ -40,7 +40,7 @@ jobs:
           west init -l config
           west update --fetch-opt=--filter=tree:0
           west zephyr-export
-          west manifest --freeze > "$GITHUB_WORKSPACE/manifest-frozen.yml"
+          west manifest --freeze --active-only > "$GITHUB_WORKSPACE/manifest-frozen.yml"
       - name: Build experimental firmware
         shell: bash
         run: |
