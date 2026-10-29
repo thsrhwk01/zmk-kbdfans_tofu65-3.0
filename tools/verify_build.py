@@ -23,6 +23,7 @@ def verify(elf_path, bin_path, config_path):
     phsize, phnum = struct.unpack_from("<HH", elf, 42)
     if phsize != 32 or not phnum or phoff + phsize * phnum > len(elf):
         raise ValueError("Invalid ELF program table")
+    load_segments = []
     for index in range(phnum):
         kind, offset, vaddr, paddr, filesz, memsz, _, _ = struct.unpack_from("<8I", elf, phoff + index * 32)
         if kind != 1:
@@ -35,8 +36,7 @@ def verify(elf_path, bin_path, config_path):
         if filesz:
             if not APP_BASE <= paddr < paddr + filesz <= SETTINGS_BASE:
                 raise ValueError("ELF load image is outside the flash code partition")
-            if binary[paddr - APP_BASE:paddr - APP_BASE + filesz] != elf[offset:offset + filesz]:
-                raise ValueError("ELF load image and BIN disagree")
+            load_segments.append((offset, paddr, filesz))
     shoff, = struct.unpack_from("<I", elf, 32)
     shsize, shnum = struct.unpack_from("<HH", elf, 46)
     if shsize != 40 or not shnum or shoff + shsize * shnum > len(elf):
@@ -49,13 +49,18 @@ def verify(elf_path, bin_path, config_path):
             continue
         if APP_BASE <= address and address + size <= SETTINGS_BASE:
             flash_start = min(flash_start, address)
-            if kind != 8:
-                if offset + size > len(elf) or binary[address - APP_BASE:address - APP_BASE + size] != elf[offset:offset + size]:
-                    raise ValueError("ELF flash section and BIN disagree")
         elif 0x20000000 <= address and address + size <= 0x20004000:
             ram_end = max(ram_end, address + size)
         else:
             raise ValueError(f"Allocated section outside partitions: {address:#x}+{size:#x}")
+        if kind != 8:  # SHT_NOBITS has no file contents. Compare every other allocated section.
+            matches = [(paddr + offset - poffset) for poffset, paddr, filesz in load_segments
+                       if poffset <= offset and offset + size <= poffset + filesz]
+            if len(matches) != 1 or offset + size > len(elf):
+                raise ValueError("Allocated section has no unique flash load image")
+            load_address = matches[0]
+            if binary[load_address - APP_BASE:load_address - APP_BASE + size] != elf[offset:offset + size]:
+                raise ValueError(f"ELF section and BIN disagree at load address {load_address:#x}")
     if flash_start != APP_BASE:
         raise ValueError("ELF does not start at the factory application boundary")
     config = config_path.read_text()

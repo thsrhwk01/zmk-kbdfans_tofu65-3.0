@@ -62,6 +62,25 @@ class BuildVerifierTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_verify(*self.fixture(), extra_config="CONFIG_SETTINGS=y\n")
 
+    def test_segment_padding_is_not_section_data(self):
+        elf, binary = self.fixture()
+        # PT_LOAD includes trailing padding beyond the 32-byte code section.
+        struct.pack_into("<II", elf, 52 + 16, 36, 36)
+        binary.extend(b"\xff" * 4)
+        self.assertEqual(self.run_verify(elf, binary)["bin_size"], 36)
+
+    def test_initialized_ram_uses_flash_load_address(self):
+        elf, binary = self.fixture()
+        struct.pack_into("<H", elf, 44, 2)
+        struct.pack_into("<8I", elf, 84, 1, 0xa0, 0x20000000, 0x08004020, 4, 4, 6, 4)
+        struct.pack_into("<10I", elf, 0x150, 0, 1, 3, 0x20000000, 0xa0, 4, 0, 0, 4, 0)
+        elf[0xa0:0xa4] = b"DATA"
+        binary.extend(b"DATA")
+        self.run_verify(elf, binary)
+        binary[-1] ^= 1
+        with self.assertRaises(ValueError):
+            self.run_verify(elf, binary)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -69,6 +69,19 @@ jobs:
           cp manifest-frozen.yml config/layout-options.h dist/
           sha256sum dist/* > SHA256SUMS.txt
           mv SHA256SUMS.txt dist/
+      - name: Upload build diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: TOFU65-build-diagnostics
+          path: |
+            /tmp/tofu-workspace/build/zephyr/zmk.elf
+            /tmp/tofu-workspace/build/zephyr/zmk.bin
+            /tmp/tofu-workspace/build/zephyr/*.map
+            /tmp/tofu-workspace/build/zephyr/zephyr.dts
+            /tmp/tofu-workspace/build/zephyr/.config
+          include-hidden-files: true
+          if-no-files-found: ignore
       - name: Upload experimental artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
