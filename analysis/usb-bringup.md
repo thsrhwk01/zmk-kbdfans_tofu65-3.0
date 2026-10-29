@@ -22,3 +22,9 @@ ZMK's pinned defaults enable USB at APPLICATION priority 94 and register HID at 
 3. Diagnostic success would implicate interaction with periodic scanning; diagnostic failure would mean periodic scanning alone does not explain the problem. Next investigate control transfers, clock/PHY behavior, and HID descriptors with bus-level evidence.
 
 No driver replacement, device uninstall, or automatic firmware flashing was performed. Neither revised variant has passed a hardware test yet. Compilation success is not hardware validation.
+
+## User hardware confirmation after the USB fix
+
+The user flashed `771dfc0` normal firmware from run `40866143846` and confirmed USB enumeration and typing. Subsequent switch-pad shorting confirmed expected keycodes for all tested non-split positions, including ANSI/ISO Enter pads, stepped Caps Lock, and 7u bottom-row Ctrl/Alt/GUI pads. Split Backspace and split Left Shift extra positions were disabled in that build and remain to be tested with both options enabled.
+
+The existing Fn + top-right Delete binding uses the target-specific UniCore SRAM marker/reset behavior; Fn + Esc is reset only. This matches Neo65 CU's layer-based shortcut approach without copying its STM32F072 ROM address or entry procedure. Software UF2 entry, reconnect stability, and the two newly enabled split positions still require hardware confirmation.

@@ -39,7 +39,10 @@ def check(cpp):
             assert base[1, 4] == ("&kp NUBS" if split_shift else "&none")
             assert base[7, 3] == ("&none" if space7 else "&kp RALT")
             assert base[7, 2] == "&mo 1"
-            assert "&uf2_boot" in bindings[1]
+            function = dict(zip(coords, bindings[1]))
+            assert function[6, 3] == "&uf2_boot"  # Fn + top-right Delete
+            assert function[0, 0] == "&sys_reset"  # Fn + Esc
+            assert function[6, 2] == "&trans"  # Split extra Delete is not boot entry
         invalid = subprocess.run([cpp, "-E", "-P", "-x", "assembler-with-cpp", "-I", str(inc),
                                   "-DTOFU_ISO_ENTER=2",
                                   str(ROOT / "include/tofu65_3_0-default-keymap.dtsi")],
