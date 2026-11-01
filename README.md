@@ -38,7 +38,7 @@ Hardware observations were reported by the owner on 2026-10-29. The current test
 | --- | --- |
 | Source commit | `3e1abdc0ae680736a47283492401b564ac1bec43` |
 | Actions | [40892053171](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171) |
-| Artifact | `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` |
+| Artifact | `TOFU65-3.0-ZMK-normal` |
 | Current UF2 filename | `tofu65_3_0-zmk-normal.uf2` |
 | UF2 size | 73216 bytes |
 | UF2 SHA-256 | `55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e` |
@@ -51,7 +51,7 @@ The owner confirmed testing complete on 2026-11-01. New builds omit the `UNTESTE
 ## Quick install on Windows
 
 1. Open the verified run above, or a successful [build workflow](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/workflows/build.yml).
-2. Download `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` and extract it. The `usb-diagnostic` artifact deliberately does not scan keys.
+2. Download `TOFU65-3.0-ZMK-normal` and extract it. The `usb-diagnostic` artifact deliberately does not scan keys.
 3. Optionally compare the UF2 against the package's `SHA256SUMS.txt`:
 
    ```powershell

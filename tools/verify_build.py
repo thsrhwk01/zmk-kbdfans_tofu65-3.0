@@ -1,4 +1,4 @@
-"""Reject ELF/BIN artifacts outside the experimental TOFU65 flash/RAM partitions."""
+"""Reject ELF/BIN artifacts outside the TOFU65 flash/RAM partitions."""
 import argparse
 import hashlib
 import json

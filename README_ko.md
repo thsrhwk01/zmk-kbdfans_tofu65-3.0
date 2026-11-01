@@ -38,7 +38,7 @@ TOFU라는 이름이 같더라도 다른 PCB에 주소와 핀을 그대로 적�
 | --- | --- |
 | 소스 커밋 | `3e1abdc0ae680736a47283492401b564ac1bec43` |
 | Actions | [40892053171](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171) |
-| 아티팩트 | `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` |
+| 아티팩트 | `TOFU65-3.0-ZMK-normal` |
 | 현재 UF2 파일명 | `tofu65_3_0-zmk-normal.uf2` |
 | UF2 크기 | 73216 bytes |
 | UF2 SHA-256 | `55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e` |
@@ -51,7 +51,7 @@ USB 인식·키 입력, 분할 추가 키 두 개, ANSI/ISO 엔터·계단식 Ca
 ## Windows 빠른 설치
 
 1. 위 검증 빌드 또는 성공한 [빌드 워크플로](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/workflows/build.yml)를 엽니다.
-2. `TOFU65-3.0-ZMK-normal-EXPERIMENTAL`을 받아 압축을 풉니다. `usb-diagnostic`은 의도적으로 키 스캔을 끈 진단판입니다.
+2. `TOFU65-3.0-ZMK-normal`을 받아 압축을 풉니다. `usb-diagnostic`은 의도적으로 키 스캔을 끈 진단판입니다.
 3. 필요하면 패키지의 `SHA256SUMS.txt`와 UF2 해시를 비교합니다.
 
    ```powershell

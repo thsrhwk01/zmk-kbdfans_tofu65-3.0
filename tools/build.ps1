@@ -23,7 +23,7 @@ try {
     Copy-Item -LiteralPath "$taskBuild/zephyr/zmk.elf", "$taskBuild/zephyr/zmk.bin" -Destination $taskDist
     Get-ChildItem -LiteralPath "$taskBuild/zephyr" -Filter '*.map' -File | Copy-Item -Destination $taskDist
     Copy-Item -LiteralPath "$taskRoot/config/layout-options.h" -Destination $taskDist
-    Write-Output "Experimental artifacts: $taskDist"
+    Write-Output "Firmware artifacts: $taskDist"
 } finally {
     Pop-Location
 }
