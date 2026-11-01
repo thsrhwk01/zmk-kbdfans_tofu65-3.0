@@ -68,7 +68,7 @@ jobs:
             --report dist/build-verification.json
           python3 tools/package_uf2.py \
             --application-bin /tmp/tofu-workspace/build/zephyr/zmk.bin \
-            --output dist/tofu65_3_0-zmk-${{ matrix.variant }}-UNTESTED.uf2
+            --output dist/tofu65_3_0-zmk-${{ matrix.variant }}.uf2
           cp /tmp/tofu-workspace/build/zephyr/zmk.{elf,bin} dist/
           find /tmp/tofu-workspace/build/zephyr -maxdepth 1 -name '*.map' -exec cp {} dist/ \;
           cp /tmp/tofu-workspace/build/zephyr/.config dist/zephyr.config

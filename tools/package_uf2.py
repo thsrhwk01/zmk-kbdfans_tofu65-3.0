@@ -53,12 +53,12 @@ def main():
     else:
         payload = args.application_bin.read_bytes()
         end = SETTINGS_BASE
-        kind = "application only; preserves bootloader and stock settings; UNTESTED"
+        kind = "application only; preserves bootloader and stock settings"
     result = package(payload, end)
     # Exclusive creation avoids silently replacing a prior firmware artifact.
     with args.output.open("xb") as stream:
         stream.write(result)
-    manifest = {"kind": kind, "hardware_tested": False, "base": hex(APP_BASE),
+    manifest = {"kind": kind, "validation_scope": "static packaging checks", "base": hex(APP_BASE),
                 "payload_length": len(payload), "uf2_length": len(result),
                 "family_id": hex(FAMILY), "sha256": hashlib.sha256(result).hexdigest()}
     args.output.with_suffix(args.output.suffix + ".json").write_text(

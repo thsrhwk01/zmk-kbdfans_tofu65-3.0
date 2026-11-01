@@ -72,7 +72,7 @@ def verify(elf_path, bin_path, config_path):
         if f"{setting}=y\n" in config:
             raise ValueError(f"Unsupported bring-up setting: {setting}")
     package(binary)  # Also check vector bounds, initial stack, and padded size.
-    return {"hardware_tested": False, "bin_size": len(binary),
+    return {"validation_scope": "static artifact checks", "bin_size": len(binary),
             "bin_sha256": hashlib.sha256(binary).hexdigest(),
             "elf_sha256": hashlib.sha256(elf).hexdigest(), "entry": hex(entry),
             "allocated_ram_end": hex(ram_end), "code_limit": hex(SETTINGS_BASE)}

@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-01",
+  "source": "Owner reported completion of testing and normal operation; requested removal of UNTESTED suffix.",
+  "commit": "3e1abdc0ae680736a47283492401b564ac1bec43",
+  "actions_run": "https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171",
+  "hardware_tested": true,
+  "bin_sha256": "67b05dd899824c646a290289bc97bbb18a56617a9e594e2c2a414a3bb750ac96",
+  "uf2_sha256": "55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e",
+  "new_uf2_filename": "tofu65_3_0-zmk-normal.uf2",
+  "scope": "ZMK application firmware; does not assert testing of the stock recovery image or no-scan diagnostic variant."
+}

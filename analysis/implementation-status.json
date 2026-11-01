@@ -1,10 +1,10 @@
 {
-  "date": "2026-10-29",
-  "status": "core-port-user-verified-personal-keymap-pending",
+  "date": "2026-11-01",
+  "status": "owner-testing-complete",
   "zmk_revision": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
-  "source_commit": "8f92936e28cb3d0207dd13631b5caf775f3328aa",
+  "source_commit": "3e1abdc0ae680736a47283492401b564ac1bec43",
   "full_zmk_build_completed": true,
-  "github_actions_run": "https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40869663384",
+  "github_actions_run": "https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171",
   "hardware_tested": true,
   "blocker": null,
   "checks": [
@@ -18,23 +18,23 @@
     "UF2 regeneration matched downloaded artifact byte-for-byte",
     "Original firmware snapshot SHA-256 unchanged"
   ],
-  "flash_bytes": 36588,
-  "ram_bytes": 10376,
-  "uf2_sha256": "d2f47a4ee2df1ad861b695805dfa5e1d84c762ff4e1597ca9b412282e6f411b3",
+  "flash_bytes": 36576,
+  "ram_bytes": 10368,
+  "uf2_sha256": "55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e",
   "original_uf2_sha256": "b57f555568536f6ade812e9065394af00b2229ca8fcc27965ae802ff369d99f0",
   "verification": {
-    "hardware_tested": false,
-    "bin_size": 36588,
-    "bin_sha256": "7a3323c75ca77d2fd5d6ae9e4137d16517e69ca19b980e478e7e1774cddbad00",
-    "elf_sha256": "f1e0a9216238b129cadc0981598b30c6287b0a4b2f7a29a9f5062181f5874644",
-    "entry": "0x8005fcd",
-    "allocated_ram_end": "0x20002888",
-    "code_limit": "0x801e000"
+    "bin_size": 36576,
+    "bin_sha256": "67b05dd899824c646a290289bc97bbb18a56617a9e594e2c2a414a3bb750ac96",
+    "elf_sha256": "48bca075daa1082f88e1ac0951dc1309480034355a25cf0537ac98cf42558e8e",
+    "entry": "0x8005fc5",
+    "allocated_ram_end": "0x20002880",
+    "code_limit": "0x801e000",
+    "validation_scope": "static artifact checks"
   },
-  "hardware_validation_passed": false,
-  "hardware_result": "User confirmed USB, expected inputs including split/alternative pads, Caps Lock LED, Fn+Delete UF2 entry, and return to ZMK. No perceived dropped inputs. Fn+Esc return observation does not establish bootloader-side keymap support.",
-  "source_commit_note": "Build metadata describes the latest user-tested Caps Lock firmware; artifact verification itself is static, while hardware observations are recorded separately.",
-  "hardware_verified_commit": "8f92936e28cb3d0207dd13631b5caf775f3328aa",
+  "hardware_validation_passed": true,
+  "hardware_result": "2026-11-01: owner reports testing complete and normal operation.",
+  "source_commit_note": "Latest owner-tested ZMK application; see hardware-validation.json. Recovery/diagnostic variants are not certified by this observation.",
+  "hardware_verified_commit": "3e1abdc0ae680736a47283492401b564ac1bec43",
   "verified_functions": [
     "USB keyboard input",
     "normal and alternative switch pads",
@@ -42,10 +42,6 @@
     "Caps Lock LED startup and host state",
     "Fn+Delete UF2 entry"
   ],
-  "remaining_validation": [
-    "Exact bootloader-to-app return sequence",
-    "extended typing and repeated reconnect testing",
-    "systematic simultaneous-key/modifier testing",
-    "explicit successful stock recovery report"
-  ]
+  "remaining_validation": [],
+  "hardware_validation_record": "analysis/hardware-validation.json"
 }

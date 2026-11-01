@@ -36,17 +36,17 @@ Hardware observations were reported by the owner on 2026-10-29. The current test
 
 | Item | Value |
 | --- | --- |
-| Source commit | `8f92936e28cb3d0207dd13631b5caf775f3328aa` |
-| Actions run | [40869663384](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40869663384) |
+| Source commit | `3e1abdc0ae680736a47283492401b564ac1bec43` |
+| Actions | [40892053171](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171) |
 | Artifact | `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` |
-| File | `tofu65_3_0-zmk-normal-UNTESTED.uf2` |
-| UF2 size | 73,216 bytes |
-| UF2 SHA-256 | `d2f47a4ee2df1ad861b695805dfa5e1d84c762ff4e1597ca9b412282e6f411b3` |
-| Application / allocated RAM | 36,588 bytes / 10,376 bytes |
+| Current UF2 filename | `tofu65_3_0-zmk-normal.uf2` |
+| UF2 size | 73216 bytes |
+| UF2 SHA-256 | `55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e` |
+| Application / allocated RAM | 36576 / 10368 bytes |
 
 Confirmed: USB enumeration and typing; both extra split keys; expected keycodes on tested ANSI/ISO Enter, stepped Caps Lock and 7u bottom-row pads; Caps Lock LED; Fn + Delete bootloader entry. The owner currently notices no missed input. This is not a measured latency or long-duration endurance result. Alternative-pad testing does not mean all 16 compiled layout combinations were physically assembled and tested.
 
-`UNTESTED` remains the automatic packaging filename: CI cannot certify each new build on hardware. The baseline above identifies the specific owner-tested build. Check the UF2 hash, not the ZIP hash.
+The owner confirmed testing complete on 2026-11-01. New builds omit the `UNTESTED` suffix; the linked historical run used the old filename. [Hardware validation](analysis/hardware-validation.json) records the tested commit and hashes. CI reports static checks separately.
 
 ## Quick install on Windows
 
@@ -55,7 +55,7 @@ Confirmed: USB enumeration and typing; both extra split keys; expected keycodes 
 3. Optionally compare the UF2 against the package's `SHA256SUMS.txt`:
 
    ```powershell
-   Get-FileHash .\tofu65_3_0-zmk-normal-UNTESTED.uf2 -Algorithm SHA256
+   Get-FileHash .\tofu65_3_0-zmk-normal.uf2 -Algorithm SHA256
    ```
 
 4. Enter UF2 mode with the PCB's double-tap button, or Fn + top-right Delete while ZMK is running.

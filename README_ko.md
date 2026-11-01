@@ -36,17 +36,17 @@ TOFU라는 이름이 같더라도 다른 PCB에 주소와 핀을 그대로 적�
 
 | 항목 | 값 |
 | --- | --- |
-| 소스 커밋 | `8f92936e28cb3d0207dd13631b5caf775f3328aa` |
-| Actions | [40869663384](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40869663384) |
+| 소스 커밋 | `3e1abdc0ae680736a47283492401b564ac1bec43` |
+| Actions | [40892053171](https://github.com/thsrhwk01/zmk-kbdfans_tofu65-3.0/actions/runs/40892053171) |
 | 아티팩트 | `TOFU65-3.0-ZMK-normal-EXPERIMENTAL` |
-| 파일 | `tofu65_3_0-zmk-normal-UNTESTED.uf2` |
-| UF2 크기 | 73,216바이트 |
-| UF2 SHA-256 | `d2f47a4ee2df1ad861b695805dfa5e1d84c762ff4e1597ca9b412282e6f411b3` |
-| 앱 / 할당 RAM | 36,588바이트 / 10,376바이트 |
+| 현재 UF2 파일명 | `tofu65_3_0-zmk-normal.uf2` |
+| UF2 크기 | 73216 bytes |
+| UF2 SHA-256 | `55241ba8fdb9934fb45014b1737e8130a71b182943bfc23b974cd83a4c36405e` |
+| 앱 / 할당 RAM | 36576 / 10368 bytes |
 
 USB 인식·키 입력, 분할 추가 키 두 개, ANSI/ISO 엔터·계단식 Caps Lock·7u 하단 패드의 원하는 키코드, Caps Lock LED, Fn + Delete 부트로더 진입을 확인했습니다. 현재 사용자는 입력 씹힘을 느끼지 못했다고 보고했습니다. 이는 지연 계측이나 장시간 내구 시험 결과는 아닙니다. 선택 패드 시험과 16개 배열 조합 전체의 실조립 검증도 구분합니다.
 
-파일명의 `UNTESTED`는 CI가 매번 만드는 파일에 붙이는 이름입니다. 자동 빌드가 모든 새 펌웨어의 실기기 검증을 보장하지 않으며, 위 표가 실제 확인한 기준 빌드를 특정합니다. ZIP이 아니라 **UF2 파일 자체**의 해시를 비교하세요.
+2026-11-01 사용자가 테스트 완료와 정상 동작을 확인했습니다. 이후 빌드부터 `UNTESTED` 접미사를 제거합니다. 위 과거 실행의 파일명에는 기존 접미사가 남아 있습니다. [실기기 검증 기록](analysis/hardware-validation.json)에 확인된 커밋·해시를 기록하며 CI의 정적 검사와 구분합니다.
 
 ## Windows 빠른 설치
 
@@ -55,7 +55,7 @@ USB 인식·키 입력, 분할 추가 키 두 개, ANSI/ISO 엔터·계단식 Ca
 3. 필요하면 패키지의 `SHA256SUMS.txt`와 UF2 해시를 비교합니다.
 
    ```powershell
-   Get-FileHash .\tofu65_3_0-zmk-normal-UNTESTED.uf2 -Algorithm SHA256
+   Get-FileHash .\tofu65_3_0-zmk-normal.uf2 -Algorithm SHA256
    ```
 
 4. 기판의 double-tap 버튼 또는 ZMK 실행 중 Fn + 맨 오른쪽 상단 Delete로 UF2 모드에 진입합니다.

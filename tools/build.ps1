@@ -18,7 +18,7 @@ try {
     New-Item -ItemType Directory -Path $taskDist | Out-Null
     & $Python "$taskRoot/tools/verify_build.py" --elf "$taskBuild/zephyr/zmk.elf" --bin "$taskBuild/zephyr/zmk.bin" --config "$taskBuild/zephyr/.config" --report "$taskDist/build-verification.json"
     if ($LASTEXITCODE -ne 0) { throw 'ELF/BIN verification failed; no firmware packaged.' }
-    & $Python "$taskRoot/tools/package_uf2.py" --application-bin "$taskBuild/zephyr/zmk.bin" --output "$taskDist/tofu65_3_0-zmk-UNTESTED.uf2"
+    & $Python "$taskRoot/tools/package_uf2.py" --application-bin "$taskBuild/zephyr/zmk.bin" --output "$taskDist/tofu65_3_0-zmk-normal.uf2"
     if ($LASTEXITCODE -ne 0) { throw 'UF2 packaging failed.' }
     Copy-Item -LiteralPath "$taskBuild/zephyr/zmk.elf", "$taskBuild/zephyr/zmk.bin" -Destination $taskDist
     Get-ChildItem -LiteralPath "$taskBuild/zephyr" -Filter '*.map' -File | Copy-Item -Destination $taskDist
