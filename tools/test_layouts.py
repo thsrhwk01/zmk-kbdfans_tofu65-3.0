@@ -41,7 +41,7 @@ def check(cpp):
             assert base[7, 2] == "&mo 1"
             function = dict(zip(coords, bindings[1]))
             assert function[6, 3] == "&uf2_boot"  # Fn + top-right Delete
-            assert function[0, 0] == "&sys_reset"  # Fn + Esc
+            assert function[0, 0] == "&kp TILDE"  # Fn + Esc
             assert function[6, 2] == "&trans"  # Split extra Delete is not boot entry
         invalid = subprocess.run([cpp, "-E", "-P", "-x", "assembler-with-cpp", "-I", str(inc),
                                   "-DTOFU_ISO_ENTER=2",

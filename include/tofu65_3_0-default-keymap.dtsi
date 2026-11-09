@@ -133,7 +133,7 @@
         };
         function {
             bindings = <
-                &sys_reset /* 0,0: ESC */
+                &kp TILDE /* 0,0: ESC */
                 &kp F1 /* 0,4: 1 */
                 &kp F2 /* 0,5: 2 */
                 &kp F3 /* 0,6: 3 */

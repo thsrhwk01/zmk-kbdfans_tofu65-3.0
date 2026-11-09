@@ -67,7 +67,7 @@ def generate():
     for r, c, label in positions:
         binding = "&trans"
         if label == "ESC":
-            binding = "&sys_reset"
+            binding = "&kp TILDE"
         elif label == "DELETE":
             binding = "&uf2_boot"
         elif label.isdigit():

@@ -21,7 +21,7 @@ Use the normal firmware; `usb-diagnostic` builds intentionally disable key scann
 | Key | Action |
 | --- | --- |
 | Fn + top-right Delete | UF2 bootloader |
-| Fn + Esc | Restart ZMK |
+| Fn + Esc | Tilde (`~`) |
 | Fn + 1…0, Minus, Equal | F1…F12 |
 | Extra split Backspace | Delete |
 | Extra split Left Shift | NUBS / IntlBackslash |

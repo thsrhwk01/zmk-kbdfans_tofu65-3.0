@@ -21,7 +21,7 @@ KBDfans TOFU65 3.0 유선 핫스왑 UniCore-F1 PCB용 기본 키맵입니다. US
 | 키 | 동작 |
 | --- | --- |
 | Fn + 맨 오른쪽 상단 Delete | UF2 부트로더 |
-| Fn + Esc | ZMK 재시작 |
+| Fn + Esc | 물결표 (`~`) |
 | Fn + 1…0, Minus, Equal | F1…F12 |
 | 분할 백스페이스 추가 키 | Delete |
 | 분할 좌시프트 추가 키 | NUBS / IntlBackslash |
