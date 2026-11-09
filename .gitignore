@@ -6,3 +6,6 @@ build/
 dist/
 firmware-workspace/
 
+
+# Local agent instructions
+AGENTS.md
